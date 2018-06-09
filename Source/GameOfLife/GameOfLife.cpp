@@ -4,7 +4,7 @@
 
 GameOfLife::GameOfLife(const Config & config)
     : CellularAutomaton(config) 
-    , m_cells(config.width * config.height)
+    , m_cells(config.simSize.x * config.simSize.y)
 {
     std::mt19937 rng(std::time(nullptr));
     cellForEach(*m_pConfig, [&](unsigned x, unsigned y)
@@ -24,7 +24,7 @@ void GameOfLife::input()
 
 void GameOfLife::update()
 {
-    std::vector<Cell> newCells(m_pConfig->width * m_pConfig->height);
+    std::vector<Cell> newCells(m_pConfig->simSize.x * m_pConfig->simSize.y);
     cellForEach(*m_pConfig, [&](unsigned x, unsigned y)
     {
         unsigned count = 0;
@@ -34,8 +34,8 @@ void GameOfLife::update()
                 int newX = nX + x;
                 int newY = nY + y;
 
-                if (newX == -1 || newX == (int)m_pConfig->width ||
-                    newY == -1 || newY == (int)m_pConfig->height || //out of bounds
+                if (newX == -1 || newX == (int)m_pConfig->simSize.x ||
+                    newY == -1 || newY == (int)m_pConfig->simSize.y || //out of bounds
                     (nX == 0 && nY == 0)) //Cell itself
                 {
                     continue;
@@ -72,5 +72,5 @@ void GameOfLife::update()
 
 unsigned GameOfLife::getCellIndex(unsigned x, unsigned y)
 {
-    return x + y * m_pConfig->width;
+    return x + y * m_pConfig->simSize.x;
 }

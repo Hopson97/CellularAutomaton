@@ -19,6 +19,7 @@ class CellularAutomaton
         const Config* m_pConfig;
 
     private:
+        sf::Vertex m_cells;
         sf::Image           m_pixelBuffer;
         sf::Texture         m_pixelSurfaceTex;
         sf::RectangleShape  m_pixelSurface;

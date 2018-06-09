@@ -13,11 +13,11 @@
 #include "GameOfLife/GameOfLife.h"
 
 Application::Application(const Config& config)
-:   m_window    ({config.width, config.height}, "Cellular Automaton")
+:   m_window    ({config.windowSize.x, config.windowSize.y}, "Cellular Automaton")
 ,   m_pConfig   (&config)
 {
-    m_view.setCenter({(float)config.width / 2, (float)config.height / 2});
-    m_view.setSize  ({(float)config.width,     (float)config.height});
+    m_view.setCenter({(float)config.windowSize.x / 2, (float)config.windowSize.y / 2});
+    m_view.setSize  ({(float)config.windowSize.x,     (float)config.windowSize.y});
 
     m_guiText.setFont(ResourceHolder::get().fonts.get("arial"));
     m_guiText.move(10, 3);

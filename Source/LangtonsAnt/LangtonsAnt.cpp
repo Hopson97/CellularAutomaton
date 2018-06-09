@@ -31,14 +31,14 @@ void LangtonsAnt::updateAnt(Ant& ant)
     if (position.x == 1280)
         ant.setX(0);
     else if (position.x == -1)
-        ant.setX(m_pConfig->width - 1);
+        ant.setX(m_pConfig->simSize.x - 1);
 
-    if (position.y == (int)m_pConfig->height)
+    if (position.y == (int)m_pConfig->simSize.y)
         ant.setY(0);
     else if (position.y == -1)
-        ant.setY(m_pConfig->height - 1);
+        ant.setY(m_pConfig->simSize.y - 1);
 
-    auto& cell = m_cells[position.y * m_pConfig->width + position.x];
+    auto& cell = m_cells[position.y * m_pConfig->simSize.x + position.x];
 
     sf::Color colour;
     switch (cell) {
@@ -62,7 +62,7 @@ void LangtonsAnt::updateAnt(Ant& ant)
 
 void LangtonsAnt::addAnt()
 {
-    int x = Random::get().intInRange(0, 1280 - 1);
-    int y = Random::get().intInRange(0, 720 - 1);
+    int x = Random::get().intInRange(0, m_pConfig->simSize.x - 1);
+    int y = Random::get().intInRange(0, m_pConfig->simSize.y - 1);
     m_ants.emplace_back(x, y);
 }
