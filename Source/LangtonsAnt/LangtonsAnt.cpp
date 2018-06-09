@@ -7,8 +7,7 @@ LangtonsAnt::LangtonsAnt(const Config& config)
     : CellularAutomaton(config)
     , m_cells(1280 * 720)
 {
-    for (int i = 0; i < 5; i++)
-    {
+    for (int i = 0; i < 5; i++) {
         addAnt();
     }
 }
@@ -42,8 +41,7 @@ void LangtonsAnt::updateAnt(Ant& ant)
     auto& cell = m_cells[position.y * m_pConfig->width + position.x];
 
     sf::Color colour;
-    switch (cell)
-    {
+    switch (cell) {
     case Cell::Off:
         cell = Cell::On;
         ant.turn(Turn::Right);

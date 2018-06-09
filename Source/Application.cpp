@@ -31,8 +31,7 @@ void Application::run()
 {
     sf::Clock deltaClock;
     unsigned year = 0;
-    while (m_window.isOpen())
-    {
+    while (m_window.isOpen()) {
         m_guiText.setString("Generation: " + std::to_string(year++));
         m_fpsCounter.update();
 
@@ -50,26 +49,20 @@ void Application::pollEvents()
     sf::Event e;
     while (m_window.pollEvent(e))
     {
-        if (e.type == sf::Event::Closed)
-        {
+        if (e.type == sf::Event::Closed) {
             m_window.close();
         }
-        else if (e.type == sf::Event::KeyPressed)
-        {
-            if (e.key.code == sf::Keyboard::P)
-            {
+        else if (e.type == sf::Event::KeyPressed) {
+            if (e.key.code == sf::Keyboard::P) {
                 //std::thread(&Application::makeImage, this).detach();
             }
-            else if (e.key.code == sf::Keyboard::Up)
-            {
+            else if (e.key.code == sf::Keyboard::Up) {
                 m_view.zoom(0.95f);
             }
-            else if (e.key.code == sf::Keyboard::Down)
-            {
+            else if (e.key.code == sf::Keyboard::Down) {
                 m_view.zoom(1.05f);
             }
-            else if (e.key.code == sf::Keyboard::Q)
-            {
+            else if (e.key.code == sf::Keyboard::Q) {
                // addAnt();
             }
         }
@@ -80,20 +73,16 @@ void Application::input(float dt)
 {
     float speed = 250;
     sf::Vector2f change;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-    {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
         change.y -= speed;
     }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-    {
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
         change.y += speed;
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-    {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
         change.x -= speed;
     }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-    {
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
         change.x += speed;
     }
 

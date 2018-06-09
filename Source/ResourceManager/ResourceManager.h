@@ -17,8 +17,7 @@ class ResourceManager
 
         const Resource& get(CrString name)
         {
-            if (!exists(name))
-            {
+            if (!exists(name))  {
                 add(name);
             }
 
@@ -35,14 +34,12 @@ class ResourceManager
             Resource r;
 
             //if the resource fails to load, then it adds a default "fail" resource
-            if(!r.loadFromFile(getFullname(name)))
-            {
+            if(!r.loadFromFile(getFullname(name))) {
                 Resource fail;
                 fail.loadFromFile(m_folder + "_fail_" + m_extention);
                 m_resources.insert(std::make_pair(name, fail));
             }
-            else
-            {
+            else {
                 m_resources.insert(std::make_pair(name, r));
             }
         }
