@@ -1,6 +1,6 @@
 #include "Ant.h"
 
-#include "Util/Random.h"
+#include "../Util/Random.h"
 
 namespace
 {

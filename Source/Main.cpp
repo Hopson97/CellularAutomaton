@@ -1,6 +1,8 @@
 #include "Application.h"
 #include "Util/Config.h"
 
+#include <iostream>
+
 int main()
 {
     Config config;
@@ -28,6 +30,6 @@ int main()
 
     std::cout << "Press Q to add more ants!\n";
 
-    Application app(n, config);
+    Application app(config);
     app.run();
 }
