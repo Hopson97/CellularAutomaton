@@ -21,15 +21,5 @@ class GameOfLife : public CellularAutomaton
         void update() override;
 
     private:
-        template<typename F>
-        void cellForEach(const Config& config, F f)
-        {
-            for (unsigned y = 0; y < config.simSize.y; y++) {
-                for (unsigned x = 0; x < config.simSize.x; x++) {
-                    f(x, y);
-                }
-            }
-        }
-
         std::vector<Cell> m_cells;
 };

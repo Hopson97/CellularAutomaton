@@ -7,7 +7,7 @@ GameOfLife::GameOfLife(const Config & config)
     , m_cells(config.simSize.x * config.simSize.y)
 {
     std::mt19937 rng((unsigned)std::time(nullptr));
-    cellForEach(*m_pConfig, [&](unsigned x, unsigned y)
+    cellForEach([&](unsigned x, unsigned y)
     {
         unsigned index = getCellIndex(x, y);
         std::uniform_int_distribution<int> dist(0, 1);
@@ -25,7 +25,7 @@ void GameOfLife::input()
 void GameOfLife::update()
 {
     std::vector<Cell> newCells(m_pConfig->simSize.x * m_pConfig->simSize.y);
-    cellForEach(*m_pConfig, [&](unsigned x, unsigned y)
+    cellForEach([&](unsigned x, unsigned y)
     {
         unsigned count = 0;
         for (int nX = -1; nX <= 1; nX++)    //check neighbours
