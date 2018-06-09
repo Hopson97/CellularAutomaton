@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <vector>
 #include "Util/Config.h"
 
 class CellularAutomaton
@@ -19,7 +20,8 @@ class CellularAutomaton
         const Config* m_pConfig;
 
     private:
-        sf::Vertex m_cells;
+        void addQuad(unsigned xIndex, unsigned yIndex);
+        std::vector<sf::Vertex> m_cellVertexPoints;
         sf::Image           m_pixelBuffer;
         sf::Texture         m_pixelSurfaceTex;
         sf::RectangleShape  m_pixelSurface;
