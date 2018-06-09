@@ -10,9 +10,10 @@
 
 #include "ResourceManager/ResourceHolder.h"
 #include "LangtonsAnt/LangtonsAnt.h"
+#include "GameOfLife/GameOfLife.h"
 
 Application::Application(const Config& config)
-:   m_window    ({config.width, config.height}, "Langton's Ant")
+:   m_window    ({config.width, config.height}, "Cellular Automaton")
 ,   m_pConfig   (&config)
 {
     m_view.setCenter({(float)config.width / 2, (float)config.height / 2});
@@ -24,7 +25,7 @@ Application::Application(const Config& config)
     m_guiText.setOutlineColor  (sf::Color::Black);
     m_guiText.setOutlineThickness(2);
 
-    m_automaton = std::make_unique<LangtonsAnt>(config);
+    m_automaton = std::make_unique<GameOfLife>(config);
 }
 
 void Application::run()
