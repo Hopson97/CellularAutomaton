@@ -13,7 +13,7 @@ struct Config;
 class Application
 {
     public:
-        Application(const Config& config);
+        Application(const Config& config, std::unique_ptr<CellularAutomaton> cellularAutomaton);
 
         void run();
 
