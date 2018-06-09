@@ -3,8 +3,11 @@
 
 #include "LangtonsAnt/LangtonsAnt.h"
 #include "GameOfLife/GameOfLife.h"
+#include "PredatorAndPrey/PredatorAndPrey.h"
 
 #include <iostream>
+
+constexpr int NUM_OPTIONS = 4;
 
 
 void run(const Config& config, std::unique_ptr<CellularAutomaton> cellularAutomaton)
@@ -17,7 +20,7 @@ void run(const Config& config, std::unique_ptr<CellularAutomaton> cellularAutoma
 
 bool isValidChoice(int option)
 {
-    return option > 0 && option <= 3;
+    return option > 0 && option <= NUM_OPTIONS;
 }
 
 int main()
@@ -32,7 +35,8 @@ int main()
         std::cout << "Which Cellular Automaton would you like to see?\n"
             << "1. Langton's Ant\n"
             << "2. Conway's Game of Life\n"
-            << "3. Exit\n";
+            << "3. Predator and Prey\n"
+            << NUM_OPTIONS << ". Exit\n";
         while (!isValidChoice(option)) {
             std::cin >> option;
 
@@ -52,6 +56,10 @@ int main()
                 break;
 
             case 3:
+                run(config, std::make_unique<PredatorAndPrey>(config));
+                break;
+
+            case NUM_OPTIONS:
                 exit = true;
                 break;
 

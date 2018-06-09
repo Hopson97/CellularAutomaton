@@ -14,24 +14,22 @@ class GameOfLife : public CellularAutomaton
         Off
     };
 
-public:
-    GameOfLife(const Config& config);
+    public:
+        GameOfLife(const Config& config);
 
-    void input() override;
-    void update() override;
+        void input() override;
+        void update() override;
 
-private:
-    unsigned getCellIndex(unsigned x, unsigned y);
-
-    template<typename F>
-    void cellForEach(const Config& config, F f)
-    {
-        for (unsigned y = 0; y < config.simSize.y; y++) {
-            for (unsigned x = 0; x < config.simSize.x; x++) {
-                f(x, y);
+    private:
+        template<typename F>
+        void cellForEach(const Config& config, F f)
+        {
+            for (unsigned y = 0; y < config.simSize.y; y++) {
+                for (unsigned x = 0; x < config.simSize.x; x++) {
+                    f(x, y);
+                }
             }
         }
-    }
 
-    std::vector<Cell> m_cells;
+        std::vector<Cell> m_cells;
 };

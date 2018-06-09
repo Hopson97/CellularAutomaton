@@ -6,7 +6,7 @@ GameOfLife::GameOfLife(const Config & config)
     : CellularAutomaton(config) 
     , m_cells(config.simSize.x * config.simSize.y)
 {
-    std::mt19937 rng(std::time(nullptr));
+    std::mt19937 rng((unsigned)std::time(nullptr));
     cellForEach(*m_pConfig, [&](unsigned x, unsigned y)
     {
         unsigned index = getCellIndex(x, y);
@@ -68,9 +68,4 @@ void GameOfLife::update()
         CellularAutomaton::setCellColour(x, y, updateCell == Cell::On ? sf::Color::Black : m_pConfig->fgColour);
     });
     m_cells = std::move(newCells);
-}
-
-unsigned GameOfLife::getCellIndex(unsigned x, unsigned y)
-{
-    return x + y * m_pConfig->simSize.x;
 }

@@ -13,11 +13,6 @@ CellularAutomaton::CellularAutomaton(const Config& config)
         }
     }
 
-    m_pixelBuffer.create(1280, 720, m_pConfig->fgColour);
-
-    m_pixelSurfaceTex.loadFromImage(m_pixelBuffer);
-    m_pixelSurface.setSize({ 1280.0f, 720.0f });
-    m_pixelSurface.setTexture(&m_pixelSurfaceTex);
 }
 
 void CellularAutomaton::render(sf::RenderWindow & window)
@@ -28,7 +23,7 @@ void CellularAutomaton::render(sf::RenderWindow & window)
 }
 
 void CellularAutomaton::makeScreenshot()
-{
+{/*
     static int imageCount = 0;
     std::cout << "Saving image... Please hold...\n";
     std::string fileName = "Screenshots/Screenshot" + std::to_string(imageCount++) + ".png";
@@ -38,7 +33,12 @@ void CellularAutomaton::makeScreenshot()
     }
     else {
         std::cout << TextColour::Red << "Failed to save!\n\n" << TextColour::Default;
-    }
+    }*/
+}
+
+unsigned CellularAutomaton::getCellIndex(unsigned x, unsigned y)
+{
+    return x + y * m_pConfig->simSize.x;
 }
 
 void CellularAutomaton::setCellColour(int x, int y, sf::Color colour)

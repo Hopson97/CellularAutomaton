@@ -16,13 +16,11 @@ class CellularAutomaton
         void makeScreenshot();
     
     protected:
+        unsigned getCellIndex(unsigned x, unsigned y);
         void setCellColour(int x, int y, sf::Color colour);
         const Config* m_pConfig;
 
     private:
         void addQuad(unsigned xIndex, unsigned yIndex);
         std::vector<sf::Vertex> m_cellVertexPoints;
-        sf::Image           m_pixelBuffer;
-        sf::Texture         m_pixelSurfaceTex;
-        sf::RectangleShape  m_pixelSurface;
 };
