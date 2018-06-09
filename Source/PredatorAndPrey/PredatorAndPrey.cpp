@@ -6,57 +6,53 @@ PredatorAndPrey::PredatorAndPrey(const Config & config)
     :   CellularAutomaton(config)
     , m_creatures(config.simSize.x * config.simSize.y)
 {
-    for (unsigned y = 0; y < m_pConfig->simSize.y; y++)
+    cellForEach([&](unsigned x, unsigned y)
     {
-        for (unsigned x = 0; x < m_pConfig->simSize.x; x++)
+        auto index = getCellIndex(x, y);
+        auto type = m_creatures[index].getType();
+        switch (type)
         {
-            auto index = getCellIndex(x, y);
-            auto type = m_creatures[index].getType();
-            switch (type)
-            {
-                case CreatureType::Prey:
-                    m_preyCount++;
-                    break;
+        case CreatureType::Prey:
+            m_preyCount++;
+            break;
 
-                case CreatureType::Predator:
-                    m_predatorCount++;
-                    break;
+        case CreatureType::Predator:
+            m_predatorCount++;
+            break;
 
-                case CreatureType::Nothing:
-                    break;
-            }
-            setCellColour(x, y, m_creatures[index].getColour());
+        case CreatureType::Nothing:
+            break;
         }
-    }
+        setCellColour(x, y, m_creatures[index].getColour());
+    });
+
 }
 
 void PredatorAndPrey::update()
 {
-    for (unsigned y = 0; y < m_pConfig->simSize.y; y++)
+    cellForEach([&](unsigned x, unsigned y)
     {
-        for (unsigned x = 0; x < m_pConfig->simSize.x; x++)
+        auto index = getCellIndex(x, y);
+        auto& thisCreature = m_creatures[index];
+        auto thisType = thisCreature.getType();
+
+        if (thisType == CreatureType::Nothing)
+            return;
+
+        int xChange = Random::get().intInRange(-1, 1);
+        int yChange = Random::get().intInRange(-1, 1);
+        int xAdj = x + xChange;
+        int yAdj = y + yChange;
+
+        if (xAdj < 0 || xAdj >= (int)m_pConfig->simSize.x) return;
+        if (yAdj < 0 || yAdj >= (int)m_pConfig->simSize.y) return;
+
+        auto adjIndex = getCellIndex(xAdj, yAdj);
+        auto& otherCreature = m_creatures[adjIndex];
+
+        thisCreature.update();
+        switch (thisType)
         {
-            auto index = getCellIndex(x, y);
-            auto& thisCreature = m_creatures[index];
-            auto thisType = thisCreature.getType();
-
-            if (thisType == CreatureType::Nothing)
-                continue;
-
-            int xChange = Random::get().intInRange(-1, 1);
-            int yChange = Random::get().intInRange(-1, 1);
-            int xAdj = x + xChange;
-            int yAdj = y + yChange;
-
-            if (xAdj < 0 || xAdj >= (int)m_pConfig->simSize.x) continue;
-            if (yAdj < 0 || yAdj >= (int)m_pConfig->simSize.y) continue;
-
-            auto adjIndex = getCellIndex(xAdj, yAdj);
-            auto& otherCreature = m_creatures[adjIndex];
-
-            thisCreature.update();
-            switch (thisType)
-            {
             case CreatureType::Predator:
                 updatePredator(thisCreature, otherCreature);
                 break;
@@ -67,11 +63,10 @@ void PredatorAndPrey::update()
 
             default:
                 break;
-            }
-
-            setCellColour(x, y, m_creatures[index].getColour());
         }
-    }
+
+        setCellColour(x, y, m_creatures[index].getColour());
+    });
 }
 
 void PredatorAndPrey::updatePredator(Creature & thisCreature, Creature & otherCreature)
