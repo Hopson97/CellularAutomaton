@@ -6,7 +6,7 @@
 CellularAutomaton::CellularAutomaton(const Config& config)
     :   m_pConfig   (&config)
 {
-    m_pixelBuffer.create(1280, 720, { 100, 100, 100 });
+    m_pixelBuffer.create(1280, 720, m_pConfig->fgColour);
 
     m_pixelSurfaceTex.loadFromImage(m_pixelBuffer);
     m_pixelSurface.setSize({ 1280.0f, 720.0f });

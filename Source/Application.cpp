@@ -62,11 +62,11 @@ void Application::pollEvents()
             }
             else if (e.key.code == sf::Keyboard::Up)
             {
-                m_view.zoom(0.99f);
+                m_view.zoom(0.95f);
             }
             else if (e.key.code == sf::Keyboard::Down)
             {
-                m_view.zoom(1.01f);
+                m_view.zoom(1.05f);
             }
             else if (e.key.code == sf::Keyboard::Q)
             {
@@ -78,7 +78,7 @@ void Application::pollEvents()
 
 void Application::input(float dt)
 {
-    float speed = 100;
+    float speed = 250;
     sf::Vector2f change;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
     {
@@ -102,7 +102,7 @@ void Application::input(float dt)
 
 void Application::render()
 {
-    m_window.clear({ 150, 150, 150 });
+    m_window.clear(m_pConfig->bgColour);
 
     //Pixels
     m_window.setView(m_view);

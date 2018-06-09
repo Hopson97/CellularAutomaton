@@ -53,7 +53,7 @@ void LangtonsAnt::updateAnt(Ant& ant)
     case Cell::On:
         cell = Cell::Off;
         ant.turn(Turn::Left);
-        colour = { 100, 100, 100 };
+        colour = m_pConfig->fgColour;
         break;
     }
 

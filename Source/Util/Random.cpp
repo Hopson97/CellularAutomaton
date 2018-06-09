@@ -10,7 +10,7 @@ Random& Random::get()
 
 Random::Random()
 {
-    m_rng.seed (std::time(nullptr));
+    m_rng.seed ((unsigned)std::time(nullptr));
 }
 
 int Random::intInRange(int low, int high)
@@ -19,7 +19,7 @@ int Random::intInRange(int low, int high)
     return dist(m_rng);
 }
 
-float Random::floatInRange(int low, int high)
+float Random::floatInRange(float low, float high)
 {
     std::uniform_real_distribution<float> dist(low, high);
     return dist(m_rng);
