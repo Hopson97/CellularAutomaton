@@ -4,15 +4,18 @@
 #include "LangtonsAnt/LangtonsAnt.h"
 #include "GameOfLife/GameOfLife.h"
 #include "PredatorAndPrey/PredatorAndPrey.h"
+#include "BriansBrain/BriansBrain.h"
 
 #include <iostream>
-
-constexpr int NUM_OPTIONS = 4;
+#include "Native/Native.h"
+constexpr int NUM_OPTIONS = 5;
 
 
 void run(const Config& config, std::unique_ptr<CellularAutomaton> cellularAutomaton)
 {
     std::cout << "\nTo choose another Cellular Automaton, simply close the window\n";
+    std::cout << TextColour::Green << "Controls: \n" << TextColour::Default;
+    std::cout << "Up - Zoom in\nDown - Zoom out\nWASD - Move Around\n\n";
     std::cin.ignore();
     Application app(config, std::move(cellularAutomaton));
     app.run();
@@ -36,6 +39,7 @@ int main()
             << "1. Langton's Ant\n"
             << "2. Conway's Game of Life\n"
             << "3. Predator and Prey\n"
+            << "4. Brian's Brain\n"
             << NUM_OPTIONS << ". Exit\n";
         while (!isValidChoice(option)) {
             std::cin >> option;
@@ -57,6 +61,10 @@ int main()
 
             case 3:
                 run(config, std::make_unique<PredatorAndPrey>(config));
+                break;
+
+            case 4:
+                run(config, std::make_unique<BriansBrain>(config));
                 break;
 
             case NUM_OPTIONS:

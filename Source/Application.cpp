@@ -23,6 +23,8 @@ Application::Application(const Config& config, std::unique_ptr<CellularAutomaton
     m_guiText.setOutlineColor(sf::Color::Black);
     m_guiText.setOutlineThickness(2);
 
+    m_window.setFramerateLimit(30);
+
     m_automaton = std::move(cellularAutomaton);
 }
 

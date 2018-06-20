@@ -8,3 +8,5 @@ Release/
 
 #General
 *.dll
+*.zip
+Cellular_Automaton/
