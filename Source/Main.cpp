@@ -30,7 +30,7 @@ int main()
 {
     Config config({1280, 720}, 3);
     config.bgColour = { 150, 150, 150 };
-    config.fgColour = { 100, 100, 100 };
+    config.fgColour = { 50, 50, 50 };
 
     bool exit = false;
     while (!exit) {
@@ -45,7 +45,7 @@ int main()
             std::cin >> option;
 
             if (!isValidChoice(option)) {
-                std::cout << "Invalid option, please pick a number between 1 and 3\n";
+                std::cout << "Invalid option, please pick a number between 1 and " << NUM_OPTIONS << "\n";
             }
         }
 

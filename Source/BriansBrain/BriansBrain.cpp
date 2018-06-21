@@ -1,8 +1,6 @@
 #include "BriansBrain.h"
 
 #include <random>
-#include <unordered_map>
-
 
 BriansBrain::BriansBrain(const Config & config)
     : CellularAutomaton (config)
