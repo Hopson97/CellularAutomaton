@@ -11,14 +11,9 @@ PointInputMode::PointInputMode(WireWorld& wireWorld)
 
 
 
-void PointInputMode::onMouseReleased(const sf::Event& e)
+void PointInputMode::onMouseReleased(const sf::Event& e, const WireWorld::CellPointInfo& mousePointCellInfo)
 {
-    auto cellLocation = m_pWireWorld->getMouseInputPosition();
-    if (!cellLocation) {
-        return;
-    }
-    auto cellInfo = m_pWireWorld->getCellPointInfo(*cellLocation);
-
+    auto& cellInfo = mousePointCellInfo;
     //Input for cell conductors
     if (e.mouseButton.button == sf::Mouse::Left) {
         if (*cellInfo.cell == Cell::Conductor || *cellInfo.cell == Cell::Empty) {

@@ -2,7 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 
-class WireWorld;
+#include "WireWorld.h"
 
 class InputMode
 {
@@ -12,10 +12,10 @@ class InputMode
         { }
         virtual ~InputMode() = default;
 
-        virtual void update             () {}
+        virtual void update             (const WireWorld::CellPointInfo& mousePointCellInfo) {}
         virtual void render             (sf::RenderWindow& window) {}
-        virtual void onMousePressed     (const sf::Event& e) = 0;
-        virtual void onMouseReleased    (const sf::Event& e) = 0;
+        virtual void onMousePressed     (const sf::Event& e, const WireWorld::CellPointInfo& mousePointCellInfo) = 0;
+        virtual void onMouseReleased    (const sf::Event& e, const WireWorld::CellPointInfo& mousePointCellInfo) = 0;
         virtual void onKeyPressed       (sf::Keyboard::Key key) = 0;
 
     protected:

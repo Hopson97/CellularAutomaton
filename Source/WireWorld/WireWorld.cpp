@@ -43,18 +43,30 @@ void WireWorld::input(const sf::Event& e)
             m_inputMode = std::make_unique<LineInputMode>(*this);
         }
     }
-    else if (e.type == sf::Event::MouseButtonReleased) {
-        m_inputMode->onMouseReleased(e);
+
+    auto cellLocation = getMouseInputPosition();
+    if (!cellLocation) {
+        return;
+    }
+    auto cellInfo = getCellPointInfo(*cellLocation);
+
+    if (e.type == sf::Event::MouseButtonReleased) {
+        m_inputMode->onMouseReleased(e, cellInfo);
     }
     else if (e.type == sf::Event::MouseButtonPressed) {
-        m_inputMode->onMousePressed(e);
+        m_inputMode->onMousePressed(e, cellInfo);
     }
 }
 
 void WireWorld::update()
 {
     if (m_isInEditMode) {
-        m_inputMode->update();
+        auto cellLocation = getMouseInputPosition();
+        if (!cellLocation) {
+            return;
+        }
+        auto cellInfo = getCellPointInfo(*cellLocation);
+        m_inputMode->update(cellInfo);
     }
     else {
         //simulate here

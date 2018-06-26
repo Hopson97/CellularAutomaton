@@ -13,15 +13,12 @@ LineInputMode::LineInputMode(WireWorld & wireWorld)
     m_inputGhost.setFillColor({ 255, 255, 255, 100 });
 }
 
-void LineInputMode::update()
+void LineInputMode::update(const WireWorld::CellPointInfo& mousePointCellInfo)
 {
-
-    auto cellLocation = m_pWireWorld->getMouseInputPosition();
-    if (!cellLocation || !m_isDoingLineInput){
+    if (!m_isDoingLineInput){
         return;
     }
-    auto pointInfo = m_pWireWorld->getCellPointInfo(*cellLocation);
-    m_inputEnd = { pointInfo.x, pointInfo.y };
+    auto pointInfo = mousePointCellInfo;
 
     m_inputPoints.clear();
 
@@ -32,12 +29,6 @@ void LineInputMode::update()
     int yEnd = m_inputEnd.y;
     int xDiff = std::abs(m_inputBegin.x - m_inputEnd.x);
     int yDiff = std::abs(m_inputBegin.y - m_inputEnd.y);
-
-    auto placePoints = [&](int start, int end) {
-        for (int x = std::min(xStart, xEnd); x < std::max(xStart, xEnd); x++) {
-            m_inputPoints.emplace_back(x, yStart);
-        }
-    };
 
     if (xDiff > yDiff) {
         for (int x = std::min(xStart, xEnd); x < std::max(xStart, xEnd); x++) {
@@ -62,20 +53,19 @@ void LineInputMode::render(sf::RenderWindow & window)
     }
 }
 
-void LineInputMode::onMousePressed(const sf::Event & e)
+void LineInputMode::onMousePressed(const sf::Event & e, const WireWorld::CellPointInfo& mousePointCellInfo)
 {
-    auto cellLocation = m_pWireWorld->getMouseInputPosition();
-    if (m_isDoingLineInput || !cellLocation)
+    if (m_isDoingLineInput) {
         return;
+    }
 
-    auto pointInfo = m_pWireWorld->getCellPointInfo(*cellLocation);
-    m_inputBegin = { pointInfo.x, pointInfo.y };
+    m_inputBegin = { mousePointCellInfo.x, mousePointCellInfo.y };
     m_isDoingLineInput = true;
 
     m_isPlacingConductors = e.mouseButton.button == sf::Mouse::Left;
 }
 
-void LineInputMode::onMouseReleased(const sf::Event& e)
+void LineInputMode::onMouseReleased(const sf::Event& e, const WireWorld::CellPointInfo& mousePointCellInfo)
 {
     if (!m_isDoingLineInput) return;
     for (auto& cellPoint : m_inputPoints) {

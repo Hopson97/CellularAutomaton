@@ -6,7 +6,8 @@
 #include <memory>
 
 #include "../CellularAutomaton.h"
-#include "InputMode.h"
+
+class InputMode;
 
 class WireWorld : public CellularAutomaton
 {
@@ -31,8 +32,6 @@ class WireWorld : public CellularAutomaton
     public:
         WireWorld(const Config& config, const Application& app);
 
-        CellPointInfo getCellPointInfo(const sf::Vector2i& cellPoint);
-        std::optional<sf::Vector2i> getMouseInputPosition() const;
         void setCell(int x, int y, Cell cell);
         Cell getCell(int x, int y);
 
@@ -40,8 +39,10 @@ class WireWorld : public CellularAutomaton
         void update() override;
 
         const Config& getConfig() const;
+        CellPointInfo getCellPointInfo(const sf::Vector2i& cellPoint);
 
     private:
+        std::optional<sf::Vector2i> getMouseInputPosition() const;
         void onRenderCells(sf::RenderWindow& window) override;
 
         std::unique_ptr<InputMode> m_inputMode;
