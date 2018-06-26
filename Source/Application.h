@@ -22,6 +22,8 @@ class Application
         void input  (float dt);
         void render ();
 
+        void resetView();
+
         std::unique_ptr<CellularAutomaton> m_automaton;
 
         sf::RenderWindow m_window;
@@ -31,6 +33,7 @@ class Application
         sf::View            m_view;
 
         const Config* m_pConfig = nullptr;
+        float m_zoom = 1;
 };
 
 #endif // APPLICATION_H_INCLUDED

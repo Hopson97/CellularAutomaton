@@ -1,4 +1,5 @@
 #include "LangtonsAnt.h"
+#include <iostream>
 
 #include "../Util/Random.h"
 #include "../Util/Config.h"
@@ -10,10 +11,24 @@ LangtonsAnt::LangtonsAnt(const Config& config)
     for (int i = 0; i < 5; i++) {
         addAnt();
     }
+    std::cout << "Press Q to add more ants!\n";
 }
 
 void LangtonsAnt::input(const sf::Event& e)
 {
+    switch (e.type) {
+        case sf::Event::KeyReleased:
+            switch (e.key.code) {
+                case sf::Keyboard::Q: {
+                    auto location = addAnt();
+                    std::cout << "Added an ant. X: " << location.x << " Y: " << location.y << '\n';
+                }
+                default:
+                    break;
+            }
+        default:
+            break;   
+    }
 }
 
 void LangtonsAnt::update()
@@ -60,9 +75,12 @@ void LangtonsAnt::updateAnt(Ant& ant)
         colour);
 }
 
-void LangtonsAnt::addAnt()
+sf::Vector2i LangtonsAnt::addAnt()
 {
     int x = Random::get().intInRange(0, m_pConfig->simSize.x - 1);
     int y = Random::get().intInRange(0, m_pConfig->simSize.y - 1);
     m_ants.emplace_back(x, y);
+    return {
+        x, y
+    };
 }

@@ -14,8 +14,7 @@ Application::Application(const Config& config, std::unique_ptr<CellularAutomaton
     : m_window({ config.windowSize.x, config.windowSize.y }, "Cellular Automaton")
     , m_pConfig(&config)
 {
-    m_view.setCenter({ (float)config.windowSize.x / 2,  (float)config.windowSize.y / 2 });
-    m_view.setSize({ (float)config.windowSize.x,        (float)config.windowSize.y });
+    resetView();
 
     m_guiText.setFont(ResourceHolder::get().fonts.get("arial"));
     m_guiText.move(10, 3);
@@ -38,6 +37,7 @@ void Application::run()
 
         input (deltaClock.restart().asSeconds());
         m_automaton->update();
+        
 
         render  ();
         pollEvents();
@@ -62,6 +62,9 @@ void Application::pollEvents()
             }
             else if (e.key.code == sf::Keyboard::Down) {
                 m_view.zoom(1.05f);
+            }
+            else if (e.key.code == sf::Keyboard::R) {
+                resetView();
             }
         }
     }
@@ -101,5 +104,12 @@ void Application::render()
     m_fpsCounter.draw(m_window);
 
     m_window.display();
+}
+
+void Application::resetView()
+{
+    m_view = sf::View();
+    m_view.setCenter({ (float)m_pConfig->windowSize.x / 2,  (float)m_pConfig->windowSize.y / 2 });
+    m_view.setSize({ (float)m_pConfig->windowSize.x,        (float)m_pConfig->windowSize.y });
 }
 

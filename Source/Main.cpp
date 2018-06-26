@@ -7,29 +7,36 @@
 #include "BriansBrain/BriansBrain.h"
 
 #include <iostream>
+#include <any>
+#include <vector>
 #include "Native/Native.h"
-constexpr int NUM_OPTIONS = 6;
 
-
-template<typename T>
-void run(const Config& config)
+namespace 
 {
-    std::cout << "\nTo choose another Cellular Automaton, simply close the window\n";
-    std::cout << TextColour::Green << "Controls: \n" << TextColour::Default;
-    std::cout << "Up - Zoom in\nDown - Zoom out\nWASD - Move Around\n\n";
-    std::cin.ignore();
-    Application app(config, std::make_unique<T>(config));
-    app.run();
-}
+    constexpr int NUM_OPTIONS = 6;
+    Config config({ 1280, 720 }, 3);
 
-bool isValidChoice(int option)
-{
-    return option > 0 && option <= NUM_OPTIONS;
+    template<typename T>
+    void run()
+    {
+        std::cout << "\nTo choose another Cellular Automaton, simply close the window\n";
+        std::cout << TextColour::Green << "Controls: \n" << TextColour::Default;
+        std::cout << "Up - Zoom in\nDown - Zoom out\nWASD - Move Around\n";
+        std::cout << "R - Reset the view\n";
+        std::cin.ignore();
+        Application app(config, std::make_unique<T>(config));
+        app.run();
+        std::cout << '\n';
+    }
+
+    bool isValidChoice(int option)
+    {
+        return option > 0 && option <= NUM_OPTIONS;
+    }
 }
 
 int main()
 {
-    Config config({1280, 720}, 3);
     config.bgColour = { 150, 150, 150 };
     config.fgColour = { 50, 50, 50 };
 
@@ -41,7 +48,7 @@ int main()
             << "2. Conway's Game of Life\n"
             << "3. Predator and Prey\n"
             << "4. Brian's Brain\n"
-            << "5. Wire World"
+            << "5. Wire World\n"
             << NUM_OPTIONS << ". Exit\n";
         while (!isValidChoice(option)) {
             std::cin >> option;
@@ -54,19 +61,19 @@ int main()
         switch (option)
         {
             case 1:
-                run<LangtonsAnt>(config);
+                run<LangtonsAnt>();
                 break;
 
             case 2:
-                run<GameOfLife>(config);
+                run<GameOfLife>();
                 break;
 
             case 3:
-                run<PredatorAndPrey>(config);
+                run<PredatorAndPrey>();
                 break;
 
             case 4:
-                run<BriansBrain>(config);
+                run<BriansBrain>();
                 break;
 
             case 5:

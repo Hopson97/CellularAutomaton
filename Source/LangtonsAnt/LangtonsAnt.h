@@ -19,7 +19,7 @@ class LangtonsAnt : public CellularAutomaton
         void update() override;
 
     private:
-        void addAnt();
+        sf::Vector2i addAnt();
         void updateAnt(Ant& ant);
 
         std::vector<Ant> m_ants;
