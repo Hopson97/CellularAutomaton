@@ -5,6 +5,7 @@
 #include "GameOfLife/GameOfLife.h"
 #include "PredatorAndPrey/PredatorAndPrey.h"
 #include "BriansBrain/BriansBrain.h"
+#include "WireWorld/WireWorld.h"
 
 #include <iostream>
 #include <any>
@@ -14,7 +15,7 @@
 namespace 
 {
     constexpr int NUM_OPTIONS = 6;
-    Config config({ 1280, 720 }, 3);
+    Config config({ 1280, 720 }, 4);
 
     template<typename T>
     void run()
@@ -24,7 +25,8 @@ namespace
         std::cout << "Up - Zoom in\nDown - Zoom out\nWASD - Move Around\n";
         std::cout << "R - Reset the view\n";
         std::cin.ignore();
-        Application app(config, std::make_unique<T>(config));
+        Application app(config);
+        app.init<T>();
         app.run();
         std::cout << '\n';
     }
@@ -38,7 +40,7 @@ namespace
 int main()
 {
     config.bgColour = { 150, 150, 150 };
-    config.fgColour = { 50, 50, 50 };
+    config.fgColour = { 25, 25, 25 };
 
     bool exit = false;
     while (!exit) {
@@ -77,6 +79,7 @@ int main()
                 break;
 
             case 5:
+                run<WireWorld>();
                 break;
 
             case NUM_OPTIONS:

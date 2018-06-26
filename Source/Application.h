@@ -13,9 +13,17 @@ struct Config;
 class Application
 {
     public:
-        Application(const Config& config, std::unique_ptr<CellularAutomaton> cellularAutomaton);
+        Application(const Config& config);
+
+        template<typename T> 
+        void init()
+        {
+            m_automaton = std::make_unique<T>(*m_pConfig, *this);
+        }
 
         void run();
+
+        const sf::RenderWindow& getWindow() const;
 
     private:
         void pollEvents();

@@ -4,8 +4,8 @@
 #include "../Util/Random.h"
 #include "../Util/Config.h"
 
-LangtonsAnt::LangtonsAnt(const Config& config)
-    : CellularAutomaton(config)
+LangtonsAnt::LangtonsAnt(const Config & config, const Application& app)
+    : CellularAutomaton(config, app)
     , m_cells(1280 * 720)
 {
     for (int i = 0; i < 5; i++) {

@@ -2,8 +2,8 @@
 
 #include "../Util/Random.h"
 
-PredatorAndPrey::PredatorAndPrey(const Config & config)
-    :   CellularAutomaton(config)
+PredatorAndPrey::PredatorAndPrey(const Config & config, const Application& app)
+    : CellularAutomaton(config, app)
     , m_creatures(config.simSize.x * config.simSize.y)
 {
     cellForEach([&](unsigned x, unsigned y) {

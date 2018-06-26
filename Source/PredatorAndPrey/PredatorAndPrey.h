@@ -13,7 +13,7 @@ class PredatorAndPrey : public CellularAutomaton
     };
 
     public:
-        PredatorAndPrey(const Config& config);
+        PredatorAndPrey(const Config& config, const Application& app);
 
         void update() override;
 

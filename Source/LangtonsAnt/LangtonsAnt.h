@@ -13,7 +13,7 @@ class LangtonsAnt : public CellularAutomaton
     };
 
     public:
-        LangtonsAnt(const Config& config);
+        LangtonsAnt(const Config& config, const Application& app);
 
         void input(const sf::Event& e) override;
         void update() override;

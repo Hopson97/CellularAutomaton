@@ -12,7 +12,7 @@ class BriansBrain : public CellularAutomaton
     };
 
     public:
-        BriansBrain(const Config& config);
+        BriansBrain(const Config& config, const Application& app);
 
         void update() override;
 

@@ -1,23 +1,44 @@
 #pragma once
 
 #include <vector>
+#include <array>
+#include <optional>
+
 #include "../CellularAutomaton.h"
 
 class WireWorld : public CellularAutomaton
 {
-    enum class Cell
-    {
-        Empty,
-        Head,
-        Tail,
-        Conductor
-    };
-public:
-    WireWorld(const Config& config);
+        enum class Cell
+        {
+            Empty,
+            Head,
+            Tail,
+            Conductor
+        };
 
-    void input(const sf::Event& e) override;
-    void update() override;
+        const std::array<sf::Color, 4> m_cellColours;
 
-private:
-    std::vector<Cell> m_cells;
+    public:
+        WireWorld(const Config& config, const Application& app);
+
+        void input(const sf::Event& e) override;
+        void update() override;
+
+
+    private:
+        void onRenderCells(sf::RenderWindow& window) override;
+
+        void mouseInput(const sf::Event& e);
+        std::optional<sf::Vector2i> getMouseInputPosition() const;
+
+        std::vector<Cell> m_cells;
+
+        sf::Vector2i m_inputBegin;
+        sf::Vector2i m_inputEnd;
+        std::vector<sf::Vector2i> m_inputPoints;
+        sf::RectangleShape m_inputGhost;
+
+        bool m_isInEraseMode = false;
+        bool m_isInLineMode = false;
+        bool m_isDoingLineInput = false;
 };

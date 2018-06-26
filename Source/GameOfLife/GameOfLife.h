@@ -13,7 +13,7 @@ class GameOfLife : public CellularAutomaton
     };
 
     public:
-        GameOfLife(const Config& config);
+        GameOfLife(const Config& config, const Application& app);
 
         void update() override;
 

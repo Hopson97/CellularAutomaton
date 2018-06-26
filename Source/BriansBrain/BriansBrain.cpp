@@ -2,8 +2,8 @@
 
 #include <random>
 
-BriansBrain::BriansBrain(const Config & config)
-    : CellularAutomaton (config)
+BriansBrain::BriansBrain(const Config & config, const Application& app)
+    : CellularAutomaton(config, app)
     , m_cells(config.simSize.x * config.simSize.y)
 { 
     std::mt19937 rng((unsigned)std::time(nullptr));

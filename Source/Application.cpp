@@ -10,7 +10,7 @@
 
 #include "ResourceManager/ResourceHolder.h"
 
-Application::Application(const Config& config, std::unique_ptr<CellularAutomaton> cellularAutomaton)
+Application::Application(const Config& config)
     : m_window({ config.windowSize.x, config.windowSize.y }, "Cellular Automaton")
     , m_pConfig(&config)
 {
@@ -23,8 +23,6 @@ Application::Application(const Config& config, std::unique_ptr<CellularAutomaton
     m_guiText.setOutlineThickness(2);
 
     m_window.setFramerateLimit(30);
-
-    m_automaton = std::move(cellularAutomaton);
 }
 
 void Application::run()
@@ -32,16 +30,21 @@ void Application::run()
     sf::Clock deltaClock;
     unsigned year = 0;
     while (m_window.isOpen()) {
+
         m_guiText.setString("Generation: " + std::to_string(year++));
         m_fpsCounter.update();
 
         input (deltaClock.restart().asSeconds());
         m_automaton->update();
-        
 
         render  ();
         pollEvents();
     }
+}
+
+const sf::RenderWindow & Application::getWindow() const
+{
+    return m_window;
 }
 
 void Application::pollEvents()
@@ -49,6 +52,7 @@ void Application::pollEvents()
     sf::Event e;
     while (m_window.pollEvent(e))
     {
+        m_window.setView(m_view);
         m_automaton->input(e);
         if (e.type == sf::Event::Closed) {
             m_window.close();

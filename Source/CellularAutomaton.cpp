@@ -3,8 +3,9 @@
 #include <iostream>
 #include "Native/Native.h"
 
-CellularAutomaton::CellularAutomaton(const Config& config)
+CellularAutomaton::CellularAutomaton(const Config& config, const Application& app)
     :   m_pConfig   (&config)
+    ,   m_pApplication  (&app)
 {
     m_cellVertexPoints.reserve(config.simSize.x * config.simSize.y * 4);
     for (unsigned y = 0; y < config.simSize.y; y++) {
