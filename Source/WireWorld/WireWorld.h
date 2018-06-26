@@ -5,9 +5,12 @@
 #include <optional>
 
 #include "../CellularAutomaton.h"
+#include "InputMode.h"
 
 class WireWorld : public CellularAutomaton
 {
+        const std::array<sf::Color, 4> m_cellColours;
+    public:
         enum class Cell
         {
             Empty,
@@ -15,7 +18,7 @@ class WireWorld : public CellularAutomaton
             Tail,
             Conductor
         };
-        
+
         struct CellPointInfo
         {
             int x;
@@ -23,23 +26,21 @@ class WireWorld : public CellularAutomaton
             int index;
             Cell* cell;
         };
-        
-
-        const std::array<sf::Color, 4> m_cellColours;
 
     public:
         WireWorld(const Config& config, const Application& app);
 
+        CellPointInfo getCellPointInfo(const sf::Vector2i& cellPoint);
+        std::optional<sf::Vector2i> getMouseInputPosition() const;
+        void setCell(int x, int y, Cell cell);
+
         void input(const sf::Event& e) override;
         void update() override;
 
-
     private:
-        CellPointInfo getCellPointInfo(const sf::Vector2i& cellPoint);
         void onRenderCells(sf::RenderWindow& window) override;
 
         void mouseInput(const sf::Event& e);
-        std::optional<sf::Vector2i> getMouseInputPosition() const;
 
         std::vector<Cell> m_cells;
 
@@ -53,4 +54,6 @@ class WireWorld : public CellularAutomaton
         bool m_isInEraseMode = false;
         bool m_isInLineMode = false;
         bool m_isDoingLineInput = false;
+
+        PointInputMode test;
 };

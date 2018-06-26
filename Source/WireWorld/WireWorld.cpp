@@ -14,6 +14,7 @@ WireWorld::WireWorld(const Config & config, const Application& app)
             { 0, 191, 255 },    //Head
             { 200, 0, 0 },      //Tail
             { 255, 255, 0 } }   //Conductor
+    , test  (*this)
 {
     std::fill(m_cells.begin(), m_cells.end(), Cell::Empty);
     m_inputGhost.setSize({ (float)config.cellSize, (float)config.cellSize });
@@ -25,13 +26,8 @@ WireWorld::WireWorld(const Config & config, const Application& app)
 void WireWorld::input(const sf::Event& e)
 {
     if (e.type == sf::Event::KeyReleased) {
-        if (e.key.code == sf::Keyboard::E) {
-            m_isInEraseMode = !m_isInEraseMode;
-            std::cout   << "Erase mode toggled. Current mode: " 
-                        << (m_isInEraseMode ? "Erase" : "Place") 
-                        << '\n';
-        }
-        else if (e.key.code == sf::Keyboard::L) {
+        test.onKeyPressed(e.key.code);
+        if (e.key.code == sf::Keyboard::L) {
             m_isInLineMode = !m_isInLineMode;
             std::cout   << "Line mode toggled. Current mode: " 
                         << (m_isInLineMode ? "Lines (Click and Hold)" : "Cells") 
@@ -48,7 +44,7 @@ void WireWorld::input(const sf::Event& e)
     //Mouse release
     if (e.type == sf::Event::MouseButtonReleased) {
         if (!m_isInLineMode) {
-            mouseInput(e);
+            test.onMouseReleased(e);
         }
         else {
             m_isDoingLineInput = false;
@@ -115,6 +111,13 @@ WireWorld::CellPointInfo WireWorld::getCellPointInfo(const sf::Vector2i & cellPo
     info.index = getCellIndex(info.x, info.y);
     info.cell = &m_cells[info.index];
     return info;
+}
+
+void WireWorld::setCell(int x, int y, Cell cell)
+{
+    Cell& c = m_cells[getCellIndex(x, y)];
+    c = cell;
+    CellularAutomaton::setCellColour(x, y, m_cellColours[(int)c]);
 }
 
 void WireWorld::onRenderCells(sf::RenderWindow & window)
