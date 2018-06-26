@@ -3,6 +3,7 @@
 #include <vector>
 #include <array>
 #include <optional>
+#include <memory>
 
 #include "../CellularAutomaton.h"
 #include "InputMode.h"
@@ -33,27 +34,17 @@ class WireWorld : public CellularAutomaton
         CellPointInfo getCellPointInfo(const sf::Vector2i& cellPoint);
         std::optional<sf::Vector2i> getMouseInputPosition() const;
         void setCell(int x, int y, Cell cell);
+        Cell getCell(int x, int y);
 
         void input(const sf::Event& e) override;
         void update() override;
 
+        const Config& getConfig() const;
+
     private:
         void onRenderCells(sf::RenderWindow& window) override;
 
-        void mouseInput(const sf::Event& e);
-
+        std::unique_ptr<InputMode> m_inputMode;
         std::vector<Cell> m_cells;
-
-        sf::Vector2i m_inputBegin;
-        sf::Vector2i m_inputEnd;
-        std::vector<sf::Vector2i> m_inputPoints;
-        sf::RectangleShape m_inputGhost;
-
         bool m_isInEditMode = true;
-
-        bool m_isInEraseMode = false;
-        bool m_isInLineMode = false;
-        bool m_isDoingLineInput = false;
-
-        PointInputMode test;
 };

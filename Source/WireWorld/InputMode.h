@@ -12,6 +12,8 @@ class InputMode
         { }
         virtual ~InputMode() = default;
 
+        virtual void update             () {}
+        virtual void render             (sf::RenderWindow& window) {}
         virtual void onMousePressed     (const sf::Event& e) = 0;
         virtual void onMouseReleased    (const sf::Event& e) = 0;
         virtual void onKeyPressed       (sf::Keyboard::Key key) = 0;
@@ -20,15 +22,3 @@ class InputMode
         WireWorld* m_pWireWorld;
 };
 
-class PointInputMode : public InputMode
-{
-    public:
-        PointInputMode(WireWorld& wireWorld);
-
-        void onMousePressed(const sf::Event& e) override {}
-        void onMouseReleased(const sf::Event& e) override;
-        void onKeyPressed(sf::Keyboard::Key key) override;
-
-    private:
-        bool m_isInEraseMode = false;
-};

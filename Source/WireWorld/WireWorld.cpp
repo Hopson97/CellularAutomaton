@@ -4,6 +4,8 @@
 #include <cmath>
 #include "../Application.h"
 
+#include "PointInputMode.h"
+#include "LineInputMode.h"
 
 
 WireWorld::WireWorld(const Config & config, const Application& app)
@@ -14,93 +16,45 @@ WireWorld::WireWorld(const Config & config, const Application& app)
             { 0, 191, 255 },    //Head
             { 200, 0, 0 },      //Tail
             { 255, 255, 0 } }   //Conductor
-    , test  (*this)
 {
     std::fill(m_cells.begin(), m_cells.end(), Cell::Empty);
-    m_inputGhost.setSize({ (float)config.cellSize, (float)config.cellSize });
 
-    auto gc = m_cellColours[(int)Cell::Conductor];
-    m_inputGhost.setFillColor({ gc.r, gc.g, gc.b, 200 });
+    m_inputMode = std::make_unique<LineInputMode>(*this);
 }
 
 void WireWorld::input(const sf::Event& e)
 {
     if (e.type == sf::Event::KeyReleased) {
-        test.onKeyPressed(e.key.code);
+        m_inputMode->onKeyPressed(e.key.code);
+        /*
         if (e.key.code == sf::Keyboard::L) {
-            m_isInLineMode = !m_isInLineMode;
+           // m_isInLineMode = !m_isInLineMode;
             std::cout   << "Line mode toggled. Current mode: " 
                         << (m_isInLineMode ? "Lines (Click and Hold)" : "Cells") 
                         << '\n';
-        }
+        }*/
     }
-    auto cellLocation = getMouseInputPosition();
-    if (!cellLocation) {
-        return;
+    else if (e.type == sf::Event::MouseButtonReleased) {
+        m_inputMode->onMouseReleased(e);
     }
-
-    auto pointInfo = getCellPointInfo(*cellLocation);
-
-    //Mouse release
-    if (e.type == sf::Event::MouseButtonReleased) {
-        if (!m_isInLineMode) {
-            test.onMouseReleased(e);
-        }
-        else {
-            m_isDoingLineInput = false;
-            m_cells.clear();
-            for (auto& cellPoint : m_inputPoints) {
-                auto pointInfo = getCellPointInfo(cellPoint);
-                *pointInfo.cell = m_isInEraseMode ?
-                                    Cell::Empty :
-                                    Cell::Conductor;
-                CellularAutomaton::setCellColour(pointInfo.x, pointInfo.y, m_cellColours[(int)*pointInfo.cell]);
-            }
-        }
-    }
-    else if (e.type == sf::Event::MouseButtonPressed && m_isInLineMode) {
-        if (!m_isDoingLineInput) {
-            m_inputBegin = { pointInfo.x, pointInfo.y };
-            m_isDoingLineInput = true;
-        }
-    }
-
-    if (m_isDoingLineInput) {
-        m_inputEnd = { pointInfo.x, pointInfo.y };
+    else if (e.type == sf::Event::MouseButtonPressed) {
+        m_inputMode->onMousePressed(e);
     }
 }
 
 void WireWorld::update()
 {
     if (m_isInEditMode) {
-        if (m_isInLineMode && m_isDoingLineInput) {
-            m_inputPoints.clear();
-
-            int xStart = m_inputBegin.x;
-            int yStart = m_inputBegin.y;
-
-            int xEnd = m_inputEnd.x;
-            int yEnd = m_inputEnd.y;
-            
-            std::cout << xStart << " " << m_inputEnd.x << '\n';
-            int xDiff = std::abs(m_inputBegin.x - m_inputEnd.x);
-            int yDiff = std::abs(m_inputBegin.y - m_inputEnd.y);
-            if (xDiff > yDiff) {
-                for (int x = std::min(xStart, xEnd); x < std::max(xStart, xEnd); x++) {
-                    m_inputPoints.emplace_back(x, yStart);
-                }
-            }
-            else {
-                for (int y = std::min(yStart, yEnd); y < std::max(yStart, yEnd); y++) {
-                    m_inputPoints.emplace_back(xStart, y);
-                    
-                }
-            }
-        }
+        m_inputMode->update();
     }
     else {
         //simulate here
     }
+}
+
+const Config & WireWorld::getConfig() const
+{
+    return *m_pConfig;
 }
 
 WireWorld::CellPointInfo WireWorld::getCellPointInfo(const sf::Vector2i & cellPoint)
@@ -120,41 +74,14 @@ void WireWorld::setCell(int x, int y, Cell cell)
     CellularAutomaton::setCellColour(x, y, m_cellColours[(int)c]);
 }
 
-void WireWorld::onRenderCells(sf::RenderWindow & window)
+WireWorld::Cell WireWorld::getCell(int x, int y)
 {
-    for (auto& pos : m_inputPoints) {
-        float x = (float)pos.x * (float)m_pConfig->cellSize;
-        float y = (float)pos.y * (float)m_pConfig->cellSize;
-        m_inputGhost.setPosition(x, y);
-        window.draw(m_inputGhost);
-    }
+    return m_cells[getCellIndex(x, y)];
 }
 
-void WireWorld::mouseInput(const sf::Event& e)
+void WireWorld::onRenderCells(sf::RenderWindow & window)
 {
-    auto cellLocation = getMouseInputPosition();
-    if (!cellLocation) {
-        return;
-    }
-    auto cellInfo = getCellPointInfo(*cellLocation);
-
-    //Input for cell conductors
-    if (e.mouseButton.button == sf::Mouse::Left) {
-        if (*cellInfo.cell == Cell::Conductor || *cellInfo.cell == Cell::Empty) {
-            *cellInfo.cell = m_isInEraseMode ?
-                                Cell::Empty :
-                                Cell::Conductor;
-        }
-    }
-    //Input for cell heads
-    else if (e.mouseButton.button == sf::Mouse::Right) {
-        if (*cellInfo.cell == Cell::Conductor || *cellInfo.cell == Cell::Head) {
-            *cellInfo.cell = m_isInEraseMode ?
-                Cell::Conductor :
-                Cell::Head;
-        }
-    }
-    CellularAutomaton::setCellColour(cellInfo.x, cellInfo.y, m_cellColours[(int)*cellInfo.cell]);
+    m_inputMode->render(window);
 }
 
 std::optional<sf::Vector2i> WireWorld::getMouseInputPosition() const

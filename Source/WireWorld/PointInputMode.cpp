@@ -1,8 +1,7 @@
-#include "InputMode.h"
-
-#include "WireWorld.h"
+#include "PointInputMode.h"
 
 #include <iostream>
+#include "WireWorld.h"
 
 using Cell = WireWorld::Cell;
 
@@ -10,9 +9,7 @@ PointInputMode::PointInputMode(WireWorld& wireWorld)
     : InputMode(wireWorld)
 { }
 
-void PointInputMode::onMousePressed(const sf::Event& e)
-{
-}
+
 
 void PointInputMode::onMouseReleased(const sf::Event& e)
 {
