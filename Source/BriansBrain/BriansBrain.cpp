@@ -16,9 +16,6 @@ BriansBrain::BriansBrain(const Config & config)
     });
 }
 
-void BriansBrain::input()
-{ }
-
 void BriansBrain::update()
 {
     std::vector<Cell> newCells(m_pConfig->simSize.x * m_pConfig->simSize.y);

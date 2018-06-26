@@ -37,7 +37,6 @@ void Application::run()
         m_fpsCounter.update();
 
         input (deltaClock.restart().asSeconds());
-        m_automaton->input();
         m_automaton->update();
 
         render  ();
@@ -50,10 +49,11 @@ void Application::pollEvents()
     sf::Event e;
     while (m_window.pollEvent(e))
     {
+        m_automaton->input(e);
         if (e.type == sf::Event::Closed) {
             m_window.close();
         }
-        else if (e.type == sf::Event::KeyPressed) {
+        else if (e.type == sf::Event::KeyReleased) {
             if (e.key.code == sf::Keyboard::P) {
                 //std::thread(&Application::makeImage, this).detach();
             }
@@ -62,9 +62,6 @@ void Application::pollEvents()
             }
             else if (e.key.code == sf::Keyboard::Down) {
                 m_view.zoom(1.05f);
-            }
-            else if (e.key.code == sf::Keyboard::Q) {
-               // addAnt();
             }
         }
     }

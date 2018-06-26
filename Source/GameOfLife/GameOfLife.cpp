@@ -18,10 +18,6 @@ GameOfLife::GameOfLife(const Config & config)
     });
 }
 
-void GameOfLife::input()
-{
-}
-
 void GameOfLife::update()
 {
     std::vector<Cell> newCells(m_pConfig->simSize.x * m_pConfig->simSize.y);

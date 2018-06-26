@@ -14,7 +14,6 @@ class BriansBrain : public CellularAutomaton
     public:
         BriansBrain(const Config& config);
 
-        void input() override;
         void update() override;
 
     private:

@@ -12,7 +12,7 @@ LangtonsAnt::LangtonsAnt(const Config& config)
     }
 }
 
-void LangtonsAnt::input()
+void LangtonsAnt::input(const sf::Event& e)
 {
 }
 

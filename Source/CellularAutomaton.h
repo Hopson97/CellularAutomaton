@@ -9,7 +9,7 @@ class CellularAutomaton
     public:
         CellularAutomaton(const Config& config);
 
-        virtual void input() {}
+        virtual void input(const sf::Event& e) {}
         virtual void update() = 0;
         void render(sf::RenderWindow& window);
 

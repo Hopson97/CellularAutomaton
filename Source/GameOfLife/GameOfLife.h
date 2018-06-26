@@ -17,7 +17,6 @@ class GameOfLife : public CellularAutomaton
     public:
         GameOfLife(const Config& config);
 
-        void input() override;
         void update() override;
 
     private:

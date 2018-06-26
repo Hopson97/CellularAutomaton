@@ -15,7 +15,7 @@ class LangtonsAnt : public CellularAutomaton
     public:
         LangtonsAnt(const Config& config);
 
-        void input() override;
+        void input(const sf::Event& e) override;
         void update() override;
 
     private:
