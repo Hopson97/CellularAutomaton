@@ -20,19 +20,28 @@ WireWorld::WireWorld(const Config & config, const Application& app)
     std::fill(m_cells.begin(), m_cells.end(), Cell::Empty);
 
     m_inputMode = std::make_unique<LineInputMode>(*this);
+
+    std::cout << "P - Switch to POINT input mode\n";
+    std::cout << "P - Switch to LINE input mode\n";
+    std::cout << "E - Toggle ERASE mode\n";
+    std::cout << "S - Toggle simulation/ Edit mode\n";
+
+    std::cout << "Current mode: Editing, line mode \n";
 }
 
 void WireWorld::input(const sf::Event& e)
 {
     if (e.type == sf::Event::KeyReleased) {
         m_inputMode->onKeyPressed(e.key.code);
-        /*
-        if (e.key.code == sf::Keyboard::L) {
-           // m_isInLineMode = !m_isInLineMode;
-            std::cout   << "Line mode toggled. Current mode: " 
-                        << (m_isInLineMode ? "Lines (Click and Hold)" : "Cells") 
-                        << '\n';
-        }*/
+        
+        if (e.key.code == sf::Keyboard::P) {
+            std::cout << "Switched to POINT input mode" << '\n';
+            m_inputMode = std::make_unique<PointInputMode>(*this);
+        }
+        else if (e.key.code == sf::Keyboard::L) {
+            std::cout << "Switched to LINE input mode" << '\n';
+            m_inputMode = std::make_unique<LineInputMode>(*this);
+        }
     }
     else if (e.type == sf::Event::MouseButtonReleased) {
         m_inputMode->onMouseReleased(e);

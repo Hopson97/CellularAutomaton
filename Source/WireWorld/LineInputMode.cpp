@@ -30,10 +30,15 @@ void LineInputMode::update()
 
     int xEnd = m_inputEnd.x;
     int yEnd = m_inputEnd.y;
-
-    std::cout << xStart << " " << m_inputEnd.x << '\n';
     int xDiff = std::abs(m_inputBegin.x - m_inputEnd.x);
     int yDiff = std::abs(m_inputBegin.y - m_inputEnd.y);
+
+    auto placePoints = [&](int start, int end) {
+        for (int x = std::min(xStart, xEnd); x < std::max(xStart, xEnd); x++) {
+            m_inputPoints.emplace_back(x, yStart);
+        }
+    };
+
     if (xDiff > yDiff) {
         for (int x = std::min(xStart, xEnd); x < std::max(xStart, xEnd); x++) {
             m_inputPoints.emplace_back(x, yStart);
@@ -42,7 +47,6 @@ void LineInputMode::update()
     else {
         for (int y = std::min(yStart, yEnd); y < std::max(yStart, yEnd); y++) {
             m_inputPoints.emplace_back(xStart, y);
-
         }
     }
 }
