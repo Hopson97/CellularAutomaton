@@ -23,6 +23,5 @@ class LangtonsAnt : public CellularAutomaton
         void updateAnt(Ant& ant);
 
         std::vector<Ant> m_ants;
-
         std::vector<Cell> m_cells;
 };
