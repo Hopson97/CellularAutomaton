@@ -15,6 +15,15 @@ class WireWorld : public CellularAutomaton
             Tail,
             Conductor
         };
+        
+        struct CellPointInfo
+        {
+            int x;
+            int y;
+            int index;
+            Cell* cell;
+        };
+        
 
         const std::array<sf::Color, 4> m_cellColours;
 
@@ -26,6 +35,7 @@ class WireWorld : public CellularAutomaton
 
 
     private:
+        CellPointInfo getCellPointInfo(const sf::Vector2i& cellPoint);
         void onRenderCells(sf::RenderWindow& window) override;
 
         void mouseInput(const sf::Event& e);
@@ -37,6 +47,8 @@ class WireWorld : public CellularAutomaton
         sf::Vector2i m_inputEnd;
         std::vector<sf::Vector2i> m_inputPoints;
         sf::RectangleShape m_inputGhost;
+
+        bool m_isInEditMode = true;
 
         bool m_isInEraseMode = false;
         bool m_isInLineMode = false;

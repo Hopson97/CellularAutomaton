@@ -18,9 +18,9 @@ CellularAutomaton::CellularAutomaton(const Config& config, const Application& ap
 
 void CellularAutomaton::render(sf::RenderWindow & window)
 {
-    //m_pixelSurfaceTex.loadFromImage(m_pixelBuffer);
-    //window.draw(m_pixelSurface);
     window.draw(m_cellVertexPoints.data(), m_cellVertexPoints.size(), sf::Quads);
+    onRenderCells(window);
+    onRenderGUI(window);
 }
 
 void CellularAutomaton::makeScreenshot()
