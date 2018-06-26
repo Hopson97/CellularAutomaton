@@ -12,8 +12,20 @@
 #include <vector>
 #include "Native/Native.h"
 
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 namespace 
 {
+    void setConsolePosition()
+    {
+#ifdef _WIN32
+        HWND consoleWindow = GetConsoleWindow();
+        SetWindowPos(consoleWindow, 0, 0, 0, 500, 500, SWP_NOSIZE | SWP_NOZORDER);
+#endif
+    }
+
     constexpr int NUM_OPTIONS = 6;
     Config config({ 1280, 720 }, 4);
 
@@ -39,6 +51,7 @@ namespace
 
 int main()
 {
+    setConsolePosition();
     config.bgColour = { 150, 150, 150 };
     config.fgColour = { 25, 25, 25 };
 
@@ -57,6 +70,7 @@ int main()
 
             if (!isValidChoice(option)) {
                 std::cout << "Invalid option, please pick a number between 1 and " << NUM_OPTIONS << "\n";
+                std::cin.ignore();
             }
         }
 

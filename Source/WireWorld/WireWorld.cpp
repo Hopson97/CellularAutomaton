@@ -7,7 +7,6 @@
 #include "PointInputMode.h"
 #include "LineInputMode.h"
 
-
 WireWorld::WireWorld(const Config & config, const Application& app)
     :   CellularAutomaton(config, app)
     ,   m_cells         (1280 * 720)
@@ -22,11 +21,11 @@ WireWorld::WireWorld(const Config & config, const Application& app)
     m_inputMode = std::make_unique<LineInputMode>(*this);
 
     std::cout << "P - Switch to POINT input mode\n";
-    std::cout << "P - Switch to LINE input mode\n";
+    std::cout << "L - Switch to LINE input mode\n";
     std::cout << "E - Toggle ERASE mode\n";
-    std::cout << "S - Toggle simulation/ Edit mode\n";
+    std::cout << "Q - Toggle simulation/ Edit mode\n";
 
-    std::cout << "Current mode: Editing, line mode \n";
+    std::cout << "Current mode: Editing, LINE mode \n";
 }
 
 void WireWorld::input(const sf::Event& e)
@@ -41,6 +40,10 @@ void WireWorld::input(const sf::Event& e)
         else if (e.key.code == sf::Keyboard::L) {
             std::cout << "Switched to LINE input mode" << '\n';
             m_inputMode = std::make_unique<LineInputMode>(*this);
+        }
+        else if (e.key.code == sf::Keyboard::Q) {
+            std::cout << "Toggled SIM/EDIT mode" << '\n';
+            m_isInEditMode = !m_isInEditMode;
         }
     }
 
@@ -69,10 +72,57 @@ void WireWorld::update()
         m_inputMode->update(cellInfo);
     }
     else {
-        std::vector<Cell> newCells;
+        std::vector<Cell> newCells(m_pConfig->simSize.x * m_pConfig->simSize.y);
         CellularAutomaton::cellForEach([&](unsigned x, unsigned y) {
-           
+            auto& cell      = m_cells[getCellIndex(x, y)];
+            auto& newCell   = newCells[getCellIndex(x, y)];
+            switch (cell)
+            {
+                case Cell::Tail:
+                    newCell = Cell::Conductor;
+                    break;
+
+                case Cell::Head:
+                    newCell = Cell::Tail;
+                    break;
+
+                case Cell::Conductor: {
+                    int count = 0;
+                    for (int nX = -1; nX <= 1; nX++) {
+                        for (int nY = -1; nY <= 1; nY++)
+                        {
+                            int newX = nX + x;
+                            int newY = nY + y;
+
+                            if (newX == -1 || newX == (int)m_pConfig->simSize.x ||
+                                newY == -1 || newY == (int)m_pConfig->simSize.y || //out of bounds
+                                (nX == 0 && nY == 0)) //Cell itself
+                            {
+                                continue;
+                            }
+
+                            auto cell = m_cells[getCellIndex(newX, newY)];
+                            if (cell == Cell::Head)
+                                count++;
+                        }
+                    }
+                    if (count == 1 || count == 2) {
+                        newCell = Cell::Head;
+                    }
+                    else {
+                        newCell = Cell::Conductor;
+                    }
+                    break; }
+
+                case Cell::Empty:
+                    newCell = Cell::Empty;
+
+                default:
+                    break;
+            }
+            CellularAutomaton::setCellColour(x, y, m_cellColours[(int)newCell]);
         });
+        m_cells = std::move(newCells);
     }
 }
 
