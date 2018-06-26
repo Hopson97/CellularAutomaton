@@ -4,6 +4,7 @@
 #include <array>
 #include <optional>
 #include <memory>
+//#include <unordered_set>
 
 #include "../CellularAutomaton.h"
 
@@ -40,6 +41,9 @@ class WireWorld : public CellularAutomaton
 
         const Config& getConfig() const;
         CellPointInfo getCellPointInfo(const sf::Vector2i& cellPoint);
+
+        //std::unordered_set<sf::Vector2i> m_headLocation;
+        //std::unordered_set<sf::Vector2i> m_tailLocations;
 
     private:
         std::optional<sf::Vector2i> getMouseInputPosition() const;

@@ -18,6 +18,7 @@ void LineInputMode::update(const WireWorld::CellPointInfo& mousePointCellInfo)
     if (!m_isDoingLineInput){
         return;
     }
+    m_inputEnd = { mousePointCellInfo.x, mousePointCellInfo.y };
     auto pointInfo = mousePointCellInfo;
 
     m_inputPoints.clear();

@@ -69,7 +69,10 @@ void WireWorld::update()
         m_inputMode->update(cellInfo);
     }
     else {
-        //simulate here
+        std::vector<Cell> newCells;
+        CellularAutomaton::cellForEach([&](unsigned x, unsigned y) {
+           
+        });
     }
 }
 
