@@ -20,7 +20,7 @@ GameOfLife::GameOfLife(const Config & config, const Application& app)
 
 void GameOfLife::update()
 {
-    std::vector<Cell> newCells(m_pConfig->simSize.x * m_pConfig->simSize.y);
+    static std::vector<Cell> newCells(m_pConfig->simSize.x * m_pConfig->simSize.y);
     cellForEach([&](unsigned x, unsigned y)
     {
         unsigned count = 0;

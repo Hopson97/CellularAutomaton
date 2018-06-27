@@ -22,7 +22,7 @@ Application::Application(const Config& config)
     m_guiText.setOutlineColor(sf::Color::Black);
     m_guiText.setOutlineThickness(2);
 
-    m_window.setFramerateLimit(30);
+    m_window.setFramerateLimit(20);
 }
 
 void Application::run()

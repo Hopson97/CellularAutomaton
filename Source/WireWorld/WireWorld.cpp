@@ -72,18 +72,20 @@ void WireWorld::update()
         m_inputMode->update(cellInfo);
     }
     else {
-        std::vector<Cell> newCells(m_pConfig->simSize.x * m_pConfig->simSize.y);
+        std::vector<std::pair<sf::Vector2i, Cell>> updates;
+
         CellularAutomaton::cellForEach([&](unsigned x, unsigned y) {
-            auto& cell      = m_cells[getCellIndex(x, y)];
-            auto& newCell   = newCells[getCellIndex(x, y)];
+            auto& cell = m_cells[getCellIndex(x, y)];
+            sf::Vector2i coord(x, y);
+            std::pair<sf::Vector2i, Cell> thisUpdate = { coord, cell };
             switch (cell)
             {
                 case Cell::Tail:
-                    newCell = Cell::Conductor;
+                    thisUpdate = updates.emplace_back(coord, Cell::Conductor);
                     break;
 
                 case Cell::Head:
-                    newCell = Cell::Tail;
+                    thisUpdate = updates.emplace_back(coord, Cell::Tail);
                     break;
 
                 case Cell::Conductor: {
@@ -106,23 +108,21 @@ void WireWorld::update()
                                 count++;
                         }
                     }
+                    if (count > 0) { std::cout << count << std::endl; }
                     if (count == 1 || count == 2) {
-                        newCell = Cell::Head;
-                    }
-                    else {
-                        newCell = Cell::Conductor;
+                        thisUpdate = updates.emplace_back(coord, Cell::Head);
                     }
                     break; }
-
-                case Cell::Empty:
-                    newCell = Cell::Empty;
 
                 default:
                     break;
             }
-            CellularAutomaton::setCellColour(x, y, m_cellColours[(int)newCell]);
+            CellularAutomaton::setCellColour(x, y, m_cellColours[(int)thisUpdate.second]);
         });
-        m_cells = std::move(newCells);
+
+        for (auto& update : updates) {
+            setCell(update.first.x, update.first.y, update.second);
+        }
     }
 }
 

@@ -27,7 +27,7 @@ namespace
     }
 
     constexpr int NUM_OPTIONS = 6;
-    Config config({ 1280, 720 }, 4);
+    Config config({ 1280, 720 }, 8);
 
     template<typename T>
     void run()
