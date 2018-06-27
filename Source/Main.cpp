@@ -8,8 +8,7 @@
 #include "WireWorld/WireWorld.h"
 
 #include <iostream>
-#include <any>
-#include <vector>
+#include <fstream>
 #include "Native/Native.h"
 
 #ifdef _WIN32
@@ -27,7 +26,37 @@ namespace
     }
 
     constexpr int NUM_OPTIONS = 6;
-    Config config({ 1280, 720 }, 8);
+    Config config;
+
+    void loadConfig()
+    {
+        std::ifstream inFile("config.txt");
+        if (!inFile.is_open()) {
+            std::cout << "Unable to load config, making default settings\n";
+            config =
+            {{ 1280, 720 }, 8 };
+            return;
+        }
+        std::string line;
+        while (std::getline(inFile, line)) {
+            if (line == "fps") inFile >> config.fps;
+            else if (line == "winx") inFile >> config.windowSize.x;
+            else if (line == "winy") inFile >> config.windowSize.y;
+            else if (line == "cellsize") inFile >> config.cellSize;/*
+            else if (line == "bgcol") {
+                inFile >> config.bgColour.r
+                    >> config.bgColour.g
+                    >> config.bgColour.b;
+            }
+            else if (line == "fgcol") {
+                inFile >> config.fgColour.r
+                    >> config.fgColour.g
+                    >> config.fgColour.b;
+            }*/
+        }
+
+        config.init();
+    }
 
     template<typename T>
     void run()
@@ -52,9 +81,7 @@ namespace
 int main()
 {
     setConsolePosition();
-    config.bgColour = { 150, 150, 150 };
-    config.fgColour = { 25, 25, 25 };
-
+    loadConfig();
     bool exit = false;
     while (!exit) {
         int option = 0;

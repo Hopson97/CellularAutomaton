@@ -20,9 +20,10 @@ GameOfLife::GameOfLife(const Config & config, const Application& app)
 
 void GameOfLife::update()
 {
-    static std::vector<Cell> newCells(m_pConfig->simSize.x * m_pConfig->simSize.y);
+    std::vector<std::pair<sf::Vector2i, Cell>> updates;
     cellForEach([&](unsigned x, unsigned y)
     {
+        sf::Vector2i loc(x, y);
         unsigned count = 0;
         for (int nX = -1; nX <= 1; nX++)    //check neighbours
             for (int nY = -1; nY <= 1; nY++)
@@ -42,26 +43,29 @@ void GameOfLife::update()
                     count++;
             }
 
-        auto cell = m_cells[getCellIndex(x, y)];
-        auto& updateCell = newCells[getCellIndex(x, y)];
-        updateCell = cell;
+        int index = getCellIndex(x, y);
+        auto cell = m_cells[index];
         switch (cell)
         {
             case Cell::On:
                 if (count < 2 || count > 3)
                 {
-                    updateCell = Cell::Off;
+                    updates.emplace_back(loc, Cell::Off);
                 }
                 break;
 
             case Cell::Off:
                 if (count == 3)
                 {
-                    updateCell = Cell::On;
+                    updates.emplace_back(loc, Cell::On);
                 }
                 break;
-        }
-        CellularAutomaton::setCellColour(x, y, updateCell == Cell::On ? sf::Color::Black : m_pConfig->fgColour);
+        } 
     });
-    m_cells = std::move(newCells);
+    for (auto& update : updates) {
+        m_cells[getCellIndex(update.first.x, update.first.y)] = update.second;
+
+        CellularAutomaton::setCellColour(update.first.x, update.first.y, 
+            update.second == Cell::On ? sf::Color::Black : m_pConfig->fgColour);
+    }
 }
