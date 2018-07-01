@@ -45,3 +45,18 @@ At a black square, turn 90° left, flip the color of the square, move forward on
  - Any live cell with two or three live neighbours lives on to the next generation.
  - Any live cell with more than three live neighbours dies, as if by overpopulation.
  - Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
+ 
+## Brian's Brain
+
+Brian's brain has 3 cell types: On, Off, and dying. 
+
+Each generation:
+    -On cells go into a dying state
+    -Dying cells go into the off state
+    -Off cells go into an on state, if and only if exactly 2 [Moore's] neighbours are in the On state
+
+
+## Wireworld
+
+Wire world is a little different in the way I allow the editing of a circuit before actually running the program.
+
