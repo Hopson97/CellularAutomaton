@@ -6,6 +6,7 @@
 #include "PredatorAndPrey/PredatorAndPrey.h"
 #include "BriansBrain/BriansBrain.h"
 #include "WireWorld/WireWorld.h"
+#include "WireWorld/InputMode.h"
 
 #include <iostream>
 #include <fstream>
@@ -15,7 +16,7 @@
 #include <windows.h>
 #endif
 
-namespace 
+namespace
 {
     void setConsolePosition()
     {
