@@ -66,6 +66,6 @@ void GameOfLife::update()
         m_cells[getCellIndex(update.first.x, update.first.y)] = update.second;
 
         CellularAutomaton::setCellColour(update.first.x, update.first.y, 
-            update.second == Cell::On ? sf::Color::Black : m_pConfig->fgColour);
+            update.second == Cell::On ? m_pConfig->bgColour : m_pConfig->fgColour);
     }
 }
