@@ -6,19 +6,27 @@ find_package(SFML 2.4 REQUIRED graphics window system)
 
 set(SOURCES 
     Source/BriansBrain/BriansBrain.cpp
+
     Source/GameOfLife/GameOfLife.cpp 
+
     Source/LangtonsAnt/Ant.cpp 
     Source/LangtonsAnt/LangtonsAnt.cpp
+
     Source/Native/Win32.cpp
     Source/Native/Unix.cpp
+
     Source/PredatorAndPrey/Creature.cpp 
     Source/PredatorAndPrey/PredatorAndPrey.cpp 
-    Source/ResourceManager/ResourceHolder.cpp
-    Source/Util/FPSCounter.cpp 
-    Source/Util/Random.cpp 
+
     Source/WireWorld/LineInputMode.cpp
     Source/WireWorld/PointInputMode.cpp 
     Source/WireWorld/WireWorld.cpp
+
+    Source/Empire/Empire.cpp
+
+    Source/ResourceManager/ResourceHolder.cpp
+    Source/Util/FPSCounter.cpp 
+    Source/Util/Random.cpp 
     Source/Application.cpp 
     Source/CellularAutomaton.cpp 
     Source/Main.cpp

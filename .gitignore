@@ -5,6 +5,8 @@
 Debug/
 Release/
 
+.vscode
+
 
 #General
 *.dll
