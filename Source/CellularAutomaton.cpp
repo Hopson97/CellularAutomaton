@@ -18,8 +18,9 @@ CellularAutomaton::CellularAutomaton(const Config& config, const Application& ap
 
 void CellularAutomaton::render(sf::RenderWindow & window)
 {
-    window.draw(m_cellVertexPoints.data(), m_cellVertexPoints.size(), sf::Quads);
     onRenderCells(window);
+    window.draw(m_cellVertexPoints.data(), m_cellVertexPoints.size(), sf::Quads);
+    //onRenderCells(window);
     onRenderGUI(window);
 }
 

@@ -7,6 +7,7 @@
 #include "BriansBrain/BriansBrain.h"
 #include "WireWorld/WireWorld.h"
 #include "WireWorld/InputMode.h"
+#include "Empire/Empire.h"
 
 #include <iostream>
 #include <fstream>
@@ -26,7 +27,7 @@ namespace
 #endif
     }
 
-    constexpr int NUM_OPTIONS = 6;
+    constexpr int NUM_OPTIONS = 7;
     Config config;
 
     void loadConfig()
@@ -92,6 +93,7 @@ int main()
             << "3. Predator and Prey\n"
             << "4. Brian's Brain\n"
             << "5. Wire World\n"
+            << "6. Empire\n"
             << NUM_OPTIONS << ". Exit\n";
         while (!isValidChoice(option)) {
             std::cin >> option;
@@ -122,6 +124,10 @@ int main()
 
             case 5:
                 run<WireWorld>();
+                break;
+
+            case 6:
+                run<Empire>();
                 break;
 
             case NUM_OPTIONS:

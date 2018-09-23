@@ -11,8 +11,12 @@ class Empire : public CellularAutomaton
 
         void update() override;
 
+        void onRenderCells(sf::RenderWindow& window) override;
+
     private:
         const Config* m_pConfig;
-        sf::Image m_background;
+        sf::Image m_backgroundImg;
+        sf::Texture m_backgroundTexture;
+        sf::RectangleShape m_backgroundRect;
         //std::vector<Cell> m_cells;
 };

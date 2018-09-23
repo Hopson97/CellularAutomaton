@@ -153,7 +153,7 @@ WireWorld::Cell WireWorld::getCell(int x, int y)
     return m_cells[getCellIndex(x, y)];
 }
 
-void WireWorld::onRenderCells(sf::RenderWindow & window)
+void WireWorld::onRenderGUI(sf::RenderWindow & window)
 {
     m_inputMode->render(window);
 }

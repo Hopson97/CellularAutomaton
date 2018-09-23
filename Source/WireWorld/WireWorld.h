@@ -44,7 +44,7 @@ class WireWorld : public CellularAutomaton
 
     private:
         std::optional<sf::Vector2i> getMouseInputPosition() const;
-        void onRenderCells(sf::RenderWindow& window) override;
+        void onRenderGUI(sf::RenderWindow& window) override;
 
         std::unique_ptr<InputMode> m_inputMode;
         std::vector<Cell> m_cells;
