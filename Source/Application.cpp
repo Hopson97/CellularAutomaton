@@ -29,8 +29,8 @@ void Application::run()
 {
     sf::Clock deltaClock;
     unsigned year = 0;
+    m_window.setKeyRepeatEnabled(false);
     while (m_window.isOpen()) {
-
         m_guiText.setString("Generation: " + std::to_string(year++));
         m_fpsCounter.update();
 
@@ -42,7 +42,7 @@ void Application::run()
     }
 }
 
-const sf::RenderWindow & Application::getWindow() const
+const sf::RenderWindow& Application::getWindow() const
 {
     return m_window;
 }
@@ -52,24 +52,12 @@ void Application::pollEvents()
     sf::Event e;
     while (m_window.pollEvent(e))
     {
-        m_window.setView(m_view);
         m_automaton->input(e);
-        if (e.type == sf::Event::Closed) {
-            m_window.close();
-        }
-        else if (e.type == sf::Event::KeyReleased) {
-            if (e.key.code == sf::Keyboard::P) {
-                //std::thread(&Application::makeImage, this).detach();
-            }
-            else if (e.key.code == sf::Keyboard::Up) {
-                m_view.zoom(0.95f);
-            }
-            else if (e.key.code == sf::Keyboard::Down) {
-                m_view.zoom(1.05f);
-            }
-            else if (e.key.code == sf::Keyboard::R) {
-                resetView();
-            }
+        m_keyboard.update(e);
+        switch (e.type) {
+            case sf::Event::Closed:
+                m_window.close();
+                break;
         }
     }
 }
@@ -78,17 +66,30 @@ void Application::input(float dt)
 {
     float speed = 250;
     sf::Vector2f change;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+    if (m_keyboard.isKeyDown(sf::Keyboard::W)) {
         change.y -= speed;
     }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+    else if (m_keyboard.isKeyDown(sf::Keyboard::S)) {
         change.y += speed;
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+    if (m_keyboard.isKeyDown(sf::Keyboard::A)) {
         change.x -= speed;
     }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+    else if (m_keyboard.isKeyDown(sf::Keyboard::D)) {
         change.x += speed;
+    }
+
+    if (m_keyboard.isKeyDown(sf::Keyboard::P)) {
+        //std::thread(&Application::makeImage, this).detach();
+    }
+    if (m_keyboard.isKeyDown(sf::Keyboard::Up)) {
+        m_view.zoom(0.95f);
+    }
+    if (m_keyboard.isKeyDown(sf::Keyboard::Down)) {
+        m_view.zoom(1.05f);
+    }
+    if (m_keyboard.isKeyDown(sf::Keyboard::R)) {
+        resetView();
     }
 
     m_view.move(change * dt);
@@ -96,6 +97,7 @@ void Application::input(float dt)
 
 void Application::render()
 {
+    m_window.setView(m_view);
     m_window.clear(m_pConfig->bgColour);
 
     //Pixels
