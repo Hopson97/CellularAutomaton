@@ -22,13 +22,15 @@ set(SOURCES
     Source/WireWorld/PointInputMode.cpp 
     Source/WireWorld/WireWorld.cpp
 
-    Source/Empire/Empire.cpp
+    #Source/Empire/Empire.cpp
 
     Source/ResourceManager/ResourceHolder.cpp
     Source/Util/FPSCounter.cpp 
     Source/Util/Random.cpp 
     Source/Application.cpp 
     Source/CellularAutomaton.cpp 
+
+    Source/Keyboard.cpp
     Source/Main.cpp
 )
 

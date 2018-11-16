@@ -27,7 +27,7 @@ namespace
 #endif
     }
 
-    constexpr int NUM_OPTIONS = 7;
+    constexpr int NUM_OPTIONS = 6;
     Config config;
 
     void loadConfig()
@@ -93,7 +93,7 @@ int main()
             << "3. Predator and Prey\n"
             << "4. Brian's Brain\n"
             << "5. Wire World\n"
-            << "6. Empire\n"
+            //<< "6. Empire\n"
             << NUM_OPTIONS << ". Exit\n";
         while (!isValidChoice(option)) {
             std::cin >> option;
@@ -126,9 +126,9 @@ int main()
                 run<WireWorld>();
                 break;
 
-            case 6:
-                run<Empire>();
-                break;
+            //case 6:
+            //    run<Empire>();
+            //    break;
 
             case NUM_OPTIONS:
                 exit = true;
