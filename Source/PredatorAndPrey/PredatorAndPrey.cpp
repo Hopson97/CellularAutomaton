@@ -1,6 +1,9 @@
 #include "PredatorAndPrey.h"
 
 #include "../Util/Random.h"
+#include "../ResourceManager/ResourceHolder.h"
+
+void initText(sf::Text& text, float y);
 
 PredatorAndPrey::PredatorAndPrey(const Config & config, const Application& app)
     : CellularAutomaton(config, app)
@@ -24,6 +27,8 @@ PredatorAndPrey::PredatorAndPrey(const Config & config, const Application& app)
         }
         setCellColour(x, y, m_creatures[index].getColour());
     });
+    initText(m_preyCountText, 40);
+    initText(m_predCountText, 60);
 
 }
 
@@ -121,4 +126,21 @@ void PredatorAndPrey::updatePrey(Creature & thisCreature, Creature & otherCreatu
             break;
 
     }
+}
+
+void PredatorAndPrey::onRenderGUI(sf::RenderWindow& window) {
+    m_preyCountText.setString("Predators: " + std::to_string(m_predatorCount));
+    m_predCountText.setString("Prey: " + std::to_string(m_preyCount));
+    
+    window.draw(m_predCountText);
+    window.draw(m_preyCountText);
+}
+
+void initText(sf::Text& text, float y) {
+    text.move             (10, y);
+    text.setFillColor     (sf::Color::White);
+    text.setFont          (ResourceHolder::get().fonts.get("arial"));
+    text.setCharacterSize (18);
+    text.setOutlineColor  (sf::Color::Black);
+    text.setOutlineThickness(2);
 }
