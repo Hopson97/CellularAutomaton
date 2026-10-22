@@ -4,8 +4,8 @@
 
 struct Colony 
 {
-    unsigned id;
-    unsigned minStrStart;
-    unsigned maxStrStart;
+    unsigned id= 0;
+    unsigned minStrStart = 0;
+    unsigned maxStrStart = 0;
     sf::Color colour;
 };

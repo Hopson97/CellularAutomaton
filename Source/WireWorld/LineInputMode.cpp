@@ -49,12 +49,14 @@ void LineInputMode::render(sf::RenderWindow & window)
     for (auto& pos : m_inputPoints) {
         float x = (float)pos.x * scale;
         float y = (float)pos.y * scale;
-        m_inputGhost.setPosition(x, y);
+        m_inputGhost.setPosition({ x, y });
         window.draw(m_inputGhost);
     }
 }
 
-void LineInputMode::onMousePressed(const sf::Event & e, const WireWorld::CellPointInfo& mousePointCellInfo)
+void LineInputMode::onMousePressed(
+    const sf::Event::MouseButtonPressed& e, 
+    const WireWorld::CellPointInfo& mousePointCellInfo)
 {
     if (m_isDoingLineInput) {
         return;
@@ -63,10 +65,10 @@ void LineInputMode::onMousePressed(const sf::Event & e, const WireWorld::CellPoi
     m_inputBegin = { mousePointCellInfo.x, mousePointCellInfo.y };
     m_isDoingLineInput = true;
 
-    m_isPlacingConductors = e.mouseButton.button == sf::Mouse::Left;
+    m_isPlacingConductors = e.button == sf::Mouse::Button::Left;
 }
 
-void LineInputMode::onMouseReleased(const sf::Event& e, const WireWorld::CellPointInfo& mousePointCellInfo)
+void LineInputMode::onMouseReleased(const sf::Event::MouseButtonReleased& e, const WireWorld::CellPointInfo& mousePointCellInfo)
 {
     if (!m_isDoingLineInput) return;
     for (auto& cellPoint : m_inputPoints) {
@@ -94,7 +96,7 @@ void LineInputMode::onMouseReleased(const sf::Event& e, const WireWorld::CellPoi
 
 void LineInputMode::onKeyPressed(sf::Keyboard::Key key)
 {
-    if (key == sf::Keyboard::E) {
+    if (key == sf::Keyboard::Key::E) {
         m_isInEraseMode = !m_isInEraseMode;
         std::cout << "Erase mode toggled. Current mode: "
             << (m_isInEraseMode ? "Erase" : "Place")

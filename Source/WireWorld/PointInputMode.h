@@ -7,8 +7,8 @@ class PointInputMode : public InputMode
 public:
     PointInputMode(WireWorld& wireWorld);
 
-    void onMousePressed(const sf::Event& e, const WireWorld::CellPointInfo& mousePointCellInfo) override {}
-    void onMouseReleased(const sf::Event& e, const WireWorld::CellPointInfo& mousePointCellInfo) override;
+    void onMousePressed(const sf::Event::MouseButtonPressed& e, const WireWorld::CellPointInfo& mousePointCellInfo) override {}
+    void onMouseReleased(const sf::Event::MouseButtonReleased& e, const WireWorld::CellPointInfo& mousePointCellInfo) override;
     void onKeyPressed(sf::Keyboard::Key key) override;
 
 private:

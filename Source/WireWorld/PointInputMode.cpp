@@ -11,11 +11,11 @@ PointInputMode::PointInputMode(WireWorld& wireWorld)
 
 
 
-void PointInputMode::onMouseReleased(const sf::Event& e, const WireWorld::CellPointInfo& mousePointCellInfo)
+void PointInputMode::onMouseReleased(const sf::Event::MouseButtonReleased& e, const WireWorld::CellPointInfo& mousePointCellInfo)
 {
     auto& cellInfo = mousePointCellInfo;
     //Input for cell conductors
-    if (e.mouseButton.button == sf::Mouse::Left) {
+    if (e.button == sf::Mouse::Button::Left) {
         if (*cellInfo.cell == Cell::Conductor || *cellInfo.cell == Cell::Empty) {
             m_pWireWorld->setCell(cellInfo.x, cellInfo.y,
                 m_isInEraseMode ?
@@ -24,7 +24,7 @@ void PointInputMode::onMouseReleased(const sf::Event& e, const WireWorld::CellPo
         }
     }
     //Input for cell heads
-    else if (e.mouseButton.button == sf::Mouse::Right) {
+    else if (e.button == sf::Mouse::Button::Right) {
         if (*cellInfo.cell == Cell::Conductor || *cellInfo.cell == Cell::Head) {
             m_pWireWorld->setCell(cellInfo.x, cellInfo.y,
                 m_isInEraseMode ?
@@ -36,7 +36,7 @@ void PointInputMode::onMouseReleased(const sf::Event& e, const WireWorld::CellPo
 
 void PointInputMode::onKeyPressed(sf::Keyboard::Key key)
 {
-    if (key == sf::Keyboard::E) {
+    if (key == sf::Keyboard::Key::E) {
         m_isInEraseMode = !m_isInEraseMode;
         std::cout << "Erase mode toggled. Current mode: "
             << (m_isInEraseMode ? "Erase" : "Place")

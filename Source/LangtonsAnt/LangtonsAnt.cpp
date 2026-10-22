@@ -16,18 +16,11 @@ LangtonsAnt::LangtonsAnt(const Config & config, const Application& app)
 
 void LangtonsAnt::input(const sf::Event& e)
 {
-    switch (e.type) {
-        case sf::Event::KeyReleased:
-            switch (e.key.code) {
-                case sf::Keyboard::Q: {
-                    auto location = addAnt();
-                    std::cout << "Added an ant. X: " << location.x << " Y: " << location.y << '\n';
-                }
-                default:
-                    break;
-            }
-        default:
-            break;   
+    if (auto key = e.getIf< sf::Event::KeyReleased>()) {
+        if (key->code == sf::Keyboard::Key::Q) {
+            auto location = addAnt();
+            std::cout << "Added an ant. X: " << location.x << " Y: " << location.y << '\n';
+        }
     }
 }
 

@@ -35,8 +35,7 @@ namespace
         std::ifstream inFile("config.txt");
         if (!inFile.is_open()) {
             std::cout << "Unable to load config, making default settings\n";
-            config =
-            {{ 1280, 720 }, 8 };
+            config = {{ 1280, 720 }, 1 };
             return;
         }
         std::string line;

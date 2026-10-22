@@ -30,18 +30,18 @@ WireWorld::WireWorld(const Config & config, const Application& app)
 
 void WireWorld::input(const sf::Event& e)
 {
-    if (e.type == sf::Event::KeyReleased) {
-        m_inputMode->onKeyPressed(e.key.code);
+    if (auto key = e.getIf< sf::Event::KeyReleased>()) {
+        m_inputMode->onKeyPressed(key->code);
         
-        if (e.key.code == sf::Keyboard::P) {
+        if (key->code == sf::Keyboard::Key::P) {
             std::cout << "Switched to POINT input mode" << '\n';
             m_inputMode = std::make_unique<PointInputMode>(*this);
         }
-        else if (e.key.code == sf::Keyboard::L) {
+        else if (key->code == sf::Keyboard::Key::L) {
             std::cout << "Switched to LINE input mode" << '\n';
             m_inputMode = std::make_unique<LineInputMode>(*this);
         }
-        else if (e.key.code == sf::Keyboard::Q) {
+        else if (key->code == sf::Keyboard::Key::Q) {
             std::cout << "Toggled SIM/EDIT mode" << '\n';
             m_isInEditMode = !m_isInEditMode;
         }
@@ -53,11 +53,11 @@ void WireWorld::input(const sf::Event& e)
     }
     auto cellInfo = getCellPointInfo(*cellLocation);
 
-    if (e.type == sf::Event::MouseButtonReleased) {
-        m_inputMode->onMouseReleased(e, cellInfo);
+    if (auto mouse = e.getIf< sf::Event::MouseButtonReleased>()) {
+        m_inputMode->onMouseReleased(*mouse, cellInfo);
     }
-    else if (e.type == sf::Event::MouseButtonPressed) {
-        m_inputMode->onMousePressed(e, cellInfo);
+    if (auto mouse = e.getIf< sf::Event::MouseButtonPressed>()) {
+        m_inputMode->onMousePressed(*mouse, cellInfo);
     }
 }
 

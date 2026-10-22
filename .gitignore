@@ -1,26 +1,27 @@
-#Visual Studio Ignore 
+# Linux
+build/
+
+# Windows
+*.dll
+*.exe
+*.filters
 *.user
-*.filters 
-*.vcxproj
+*.vs
+.vscode
 Debug/
 Release/
 
-.vscode
-
-
-#General
-*.dll
+# Misc
 *.zip
-Cellular_Automaton/
+*.temp
+*.srctrlprj
+*.srctrldb
+*.srctrlbm
 
-CMakeCache.txt
-CMakeFiles
-CMakeScripts
-Testing
-Makefile
-cmake_install.cmake
-install_manifest.txt
-compile_commands.json
-CTestTestfile.cmake
+# Vcpkg
+vcpkg_installed/
 
-cellular_automaton
+PROJECT_NAME_PLACEHOLDER/
+
+*.aseprite
+*.ase

@@ -9,8 +9,8 @@ class LineInputMode : public InputMode
 
         void update             (const WireWorld::CellPointInfo& mousePointCellInfo) override;
         void render             (sf::RenderWindow& window) override;
-        void onMousePressed     (const sf::Event& e, const WireWorld::CellPointInfo& mousePointCellInfo) override;
-        void onMouseReleased    (const sf::Event& e, const WireWorld::CellPointInfo& mousePointCellInfo) override;
+        void onMousePressed     (const sf::Event::MouseButtonPressed& e, const WireWorld::CellPointInfo& mousePointCellInfo) override;
+        void onMouseReleased    (const sf::Event::MouseButtonReleased& e, const WireWorld::CellPointInfo& mousePointCellInfo) override;
         void onKeyPressed       (sf::Keyboard::Key key) override;
 
     private:

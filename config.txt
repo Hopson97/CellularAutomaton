@@ -7,9 +7,6 @@ winx
 winy
 720
 
-cellsize
-2
-
 bgcol
 150 150 150
 

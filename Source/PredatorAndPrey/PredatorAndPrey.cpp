@@ -8,6 +8,8 @@ void initText(sf::Text& text, float y);
 PredatorAndPrey::PredatorAndPrey(const Config & config, const Application& app)
     : CellularAutomaton(config, app)
     , m_creatures(config.simSize.x * config.simSize.y)
+    , m_preyCountText(ResourceHolder::get().fonts.get("arial"))
+    , m_predCountText(ResourceHolder::get().fonts.get("arial"))
 {
     cellForEach([&](unsigned x, unsigned y) {
         auto index = getCellIndex(x, y);
@@ -137,9 +139,9 @@ void PredatorAndPrey::onRenderGUI(sf::RenderWindow& window) {
 }
 
 void initText(sf::Text& text, float y) {
-    text.move             (10, y);
+    text.move({ 10, y });
     text.setFillColor     (sf::Color::White);
-    text.setFont          (ResourceHolder::get().fonts.get("arial"));
+    
     text.setCharacterSize (18);
     text.setOutlineColor  (sf::Color::Black);
     text.setOutlineThickness(2);

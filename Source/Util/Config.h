@@ -8,7 +8,7 @@ struct Config
     Config() = default;
     Config(const sf::Vector2u& winSize, unsigned cellSize)
         : windowSize    (winSize)
-        ,   cellSize    (cellSize)
+        ,   cellSize    (1)
     {
         init();
     }
@@ -24,7 +24,7 @@ struct Config
 
     sf::Vector2u windowSize = { 1280, 720 };
     sf::Vector2u simSize;
-    unsigned cellSize = 4;
+    unsigned cellSize = 1;
     unsigned fps = 30;
 
     sf::Color bgColour = { 150, 150, 150 };

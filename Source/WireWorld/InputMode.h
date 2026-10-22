@@ -14,8 +14,9 @@ class InputMode
 
         virtual void update             (const WireWorld::CellPointInfo& mousePointCellInfo) {}
         virtual void render             (sf::RenderWindow& window) {}
-        virtual void onMousePressed     (const sf::Event& e, const WireWorld::CellPointInfo& mousePointCellInfo) = 0;
-        virtual void onMouseReleased    (const sf::Event& e, const WireWorld::CellPointInfo& mousePointCellInfo) = 0;
+        virtual void onMousePressed     (const sf::Event::MouseButtonPressed& e, const WireWorld::CellPointInfo& mousePointCellInfo) = 0;
+        virtual void onMouseReleased    (const sf::Event::MouseButtonReleased& e, const WireWorld::CellPointInfo& mousePointCellInfo) = 0;
+
         virtual void onKeyPressed       (sf::Keyboard::Key key) = 0;
 
     protected:

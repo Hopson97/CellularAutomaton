@@ -30,8 +30,10 @@ class CellularAutomaton
 
         const Application* const m_pApplication;
         const Config* const m_pConfig;
-        void addQuad(unsigned xIndex, unsigned yIndex);
-        std::vector<sf::Vertex> m_cellVertexPoints;
+
+        sf::Image m_cells;
+        sf::Texture m_texture;
+        sf::RectangleShape m_surface;
 };
 
 template<typename Func>
